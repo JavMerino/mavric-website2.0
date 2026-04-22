@@ -2,6 +2,9 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 
 const ThemeContext = createContext();
 
+// Piura, Peru timezone: UTC-5
+const PIURA_TZ = 'America/Lima';
+
 const THEMES = {
   morning: {
     name: 'Mañana',
@@ -64,61 +67,60 @@ const THEMES = {
   afternoon: {
     name: 'Tarde',
     isLight: true,
-    accent1: '#3B82F6',
-    accent2: '#8B5CF6',
-    btnBg: 'linear-gradient(135deg, #3B82F6, #8B5CF6)',
+    accent1: '#1D7AB8',
+    accent2: '#D97706',
+    btnBg: 'linear-gradient(135deg, #1D7AB8, #D97706)',
     btnText: '#FFFFFF',
-    glow: 'rgba(59, 130, 246, 0.18)',
-    gradientStart: '#EDE9FE',
-    gradientMid: '#DDD6FE',
-    gradientEnd: '#D4C8F8',
-    aura: 'radial-gradient(ellipse at 50% 20%, rgba(139,92,246,0.08) 0%, transparent 60%)',
-    particleColor: 'rgba(139, 92, 246, 0.15)',
-    textPrimary: '#1E1B4B',
-    textSecondary: '#3730A3',
-    textMuted: '#6366A0',
+    glow: 'rgba(29, 122, 184, 0.16)',
+    gradientStart: '#F5F0E8',
+    gradientMid: '#E8E2D8',
+    gradientEnd: '#DDD8CE',
+    aura: 'radial-gradient(ellipse at 50% 30%, rgba(217,119,6,0.06) 0%, rgba(29,122,184,0.04) 40%, transparent 70%)',
+    particleColor: 'rgba(217, 119, 6, 0.12)',
+    textPrimary: '#1C1917',
+    textSecondary: '#44403C',
+    textMuted: '#78716C',
     cardBg: 'rgba(255, 255, 255, 0.55)',
-    cardBorder: 'rgba(30, 27, 75, 0.08)',
-    navBg: 'rgba(237, 233, 254, 0.85)',
-    navBorder: 'rgba(30, 27, 75, 0.06)',
-    panelBg: 'rgba(255, 255, 255, 0.85)',
-    panelBorder: 'rgba(30, 27, 75, 0.1)',
-    gridLine: 'rgba(30, 27, 75, 0.03)',
-    orbOpacity: 0.12,
+    cardBorder: 'rgba(28, 25, 23, 0.08)',
+    navBg: 'rgba(245, 240, 232, 0.88)',
+    navBorder: 'rgba(28, 25, 23, 0.06)',
+    panelBg: 'rgba(255, 255, 255, 0.88)',
+    panelBorder: 'rgba(28, 25, 23, 0.1)',
+    gridLine: 'rgba(28, 25, 23, 0.03)',
+    orbOpacity: 0.1,
     showStars: false,
-    rainColor: 'rgba(67, 56, 202, 0.35)',
-    rainHighlight: 'rgba(139, 92, 246, 0.2)',
-    footerBorder: 'rgba(30, 27, 75, 0.08)',
+    rainColor: 'rgba(68, 64, 60, 0.3)',
+    rainHighlight: 'rgba(217, 119, 6, 0.15)',
+    footerBorder: 'rgba(28, 25, 23, 0.08)',
   },
   sunset: {
     name: 'Atardecer',
-    isLight: false,
-    accent1: '#F97316',
-    accent2: '#A855F7',
-    btnBg: 'linear-gradient(135deg, #F97316, #A855F7)',
+    isLight: true,
+    accent1: '#C2410C',
+    accent2: '#7C3AED',
+    btnBg: 'linear-gradient(135deg, #EA580C, #9333EA)',
     btnText: '#FFFFFF',
-    glow: 'rgba(249, 115, 22, 0.2)',
-    gradientStart: '#1C0A2E',
-    gradientMid: '#2D1045',
-    gradientEnd: '#3A1255',
-    aura: 'radial-gradient(ellipse at 50% 0%, rgba(249,115,22,0.15) 0%, rgba(168,85,247,0.1) 40%, transparent 70%)',
-    particleColor: 'rgba(249, 115, 22, 0.25)',
-    textPrimary: '#FDF4FF',
-    textSecondary: '#E9D5FF',
-    textMuted: '#C4B5D3',
-    cardBg: 'rgba(44, 16, 69, 0.6)',
-    cardBorder: 'rgba(248, 250, 252, 0.08)',
-    navBg: 'rgba(28, 10, 46, 0.88)',
-    navBorder: 'rgba(248, 250, 252, 0.06)',
-    panelBg: 'rgba(28, 10, 46, 0.9)',
-    panelBorder: 'rgba(248, 250, 252, 0.08)',
-    gridLine: 'rgba(248, 250, 252, 0.03)',
-    orbOpacity: 0.2,
-    showStars: true,
-    starCount: 30,
-    rainColor: 'rgba(196, 181, 253, 0.35)',
-    rainHighlight: 'rgba(249, 115, 22, 0.15)',
-    footerBorder: 'rgba(248, 250, 252, 0.06)',
+    glow: 'rgba(234, 88, 12, 0.18)',
+    gradientStart: '#B4C6D6',
+    gradientMid: '#E8BFA0',
+    gradientEnd: '#F0C8A0',
+    aura: 'radial-gradient(ellipse at 50% 60%, rgba(251,146,60,0.15) 0%, rgba(217,119,6,0.08) 40%, transparent 70%)',
+    particleColor: 'rgba(234, 88, 12, 0.15)',
+    textPrimary: '#1C1917',
+    textSecondary: '#44403C',
+    textMuted: '#6B5E54',
+    cardBg: 'rgba(255, 255, 255, 0.45)',
+    cardBorder: 'rgba(28, 25, 23, 0.1)',
+    navBg: 'rgba(220, 200, 180, 0.8)',
+    navBorder: 'rgba(28, 25, 23, 0.08)',
+    panelBg: 'rgba(255, 248, 240, 0.85)',
+    panelBorder: 'rgba(28, 25, 23, 0.1)',
+    gridLine: 'rgba(28, 25, 23, 0.03)',
+    orbOpacity: 0.15,
+    showStars: false,
+    rainColor: 'rgba(120, 80, 50, 0.3)',
+    rainHighlight: 'rgba(251, 146, 60, 0.18)',
+    footerBorder: 'rgba(28, 25, 23, 0.1)',
   },
   dusk: {
     name: 'Anochecer',
@@ -132,7 +134,7 @@ const THEMES = {
     gradientMid: '#111738',
     gradientEnd: '#161D45',
     aura: 'radial-gradient(ellipse at 50% 0%, rgba(129,140,248,0.12) 0%, transparent 60%)',
-    particleColor: 'rgba(129, 140, 248, 0.3)',
+    particleColor: 'rgba(200, 210, 255, 0.5)',
     textPrimary: '#F1F5F9',
     textSecondary: '#CBD5E1',
     textMuted: '#94A3B8',
@@ -145,7 +147,7 @@ const THEMES = {
     gridLine: 'rgba(248, 250, 252, 0.03)',
     orbOpacity: 0.18,
     showStars: true,
-    starCount: 50,
+    starCount: 25,
     rainColor: 'rgba(148, 163, 184, 0.35)',
     rainHighlight: 'rgba(129, 140, 248, 0.15)',
     footerBorder: 'rgba(248, 250, 252, 0.06)',
@@ -162,7 +164,7 @@ const THEMES = {
     gradientMid: '#080D1A',
     gradientEnd: '#0A1025',
     aura: 'radial-gradient(ellipse at 50% 0%, rgba(109,94,249,0.1) 0%, transparent 60%)',
-    particleColor: 'rgba(109, 94, 249, 0.35)',
+    particleColor: 'rgba(220, 225, 255, 0.55)',
     textPrimary: '#F8FAFC',
     textSecondary: '#DCE7FF',
     textMuted: '#94A3B8',
@@ -175,40 +177,70 @@ const THEMES = {
     gridLine: 'rgba(248, 250, 252, 0.03)',
     orbOpacity: 0.2,
     showStars: true,
-    starCount: 80,
+    starCount: 55,
     rainColor: 'rgba(148, 194, 255, 0.4)',
     rainHighlight: 'rgba(109, 94, 249, 0.15)',
     footerBorder: 'rgba(248, 250, 252, 0.05)',
   },
 };
 
-// Cloudy overlays per theme
 const CLOUDY_OVERRIDES = {
-  morning: { gradientStart: '#D1D5DB', gradientMid: '#C8CDD5', gradientEnd: '#BFC5CF', accent1: '#4B5563', accent2: '#6B7280', glow: 'rgba(75, 85, 99, 0.12)', textPrimary: '#1F2937', textSecondary: '#374151', textMuted: '#6B7280', cardBg: 'rgba(255,255,255,0.5)', orbOpacity: 0.06 },
-  midday: { gradientStart: '#E5E7EB', gradientMid: '#D1D5DB', gradientEnd: '#C8CDD5', accent1: '#4B5563', accent2: '#6B7280', glow: 'rgba(75, 85, 99, 0.12)', textPrimary: '#111827', textSecondary: '#374151', textMuted: '#6B7280', cardBg: 'rgba(255,255,255,0.5)', orbOpacity: 0.06 },
-  afternoon: { gradientStart: '#D6D3E0', gradientMid: '#C8C4D6', gradientEnd: '#BCB8CC', accent1: '#6366A0', accent2: '#7C3AED', glow: 'rgba(99, 102, 160, 0.12)', textPrimary: '#1E1B4B', textSecondary: '#3730A3', textMuted: '#6366A0', cardBg: 'rgba(255,255,255,0.45)', orbOpacity: 0.08 },
-  sunset: { gradientStart: '#1A0E22', gradientMid: '#221430', gradientEnd: '#2A1838', accent1: '#C2884A', accent2: '#8B5CF6', glow: 'rgba(194, 136, 74, 0.12)', orbOpacity: 0.1 },
-  dusk: { gradientStart: '#0D0F1C', gradientMid: '#121530', gradientEnd: '#161940', accent1: '#6B7280', accent2: '#4B5563', glow: 'rgba(107, 114, 128, 0.1)', orbOpacity: 0.08 },
-  night: { gradientStart: '#060810', gradientMid: '#0A0D18', gradientEnd: '#0D1020', accent1: '#6B7280', accent2: '#4B5563', glow: 'rgba(107, 114, 128, 0.1)', orbOpacity: 0.08 },
+  morning: { gradientStart: '#D1D5DB', gradientMid: '#C8CDD5', gradientEnd: '#BFC5CF', accent1: '#4B5563', accent2: '#6B7280', glow: 'rgba(75, 85, 99, 0.12)', textPrimary: '#1F2937', textSecondary: '#374151', textMuted: '#6B7280', cardBg: 'rgba(255,255,255,0.5)', orbOpacity: 0.06, showStars: false },
+  midday: { gradientStart: '#E5E7EB', gradientMid: '#D1D5DB', gradientEnd: '#C8CDD5', accent1: '#4B5563', accent2: '#6B7280', glow: 'rgba(75, 85, 99, 0.12)', textPrimary: '#111827', textSecondary: '#374151', textMuted: '#6B7280', cardBg: 'rgba(255,255,255,0.5)', orbOpacity: 0.06, showStars: false },
+  afternoon: { gradientStart: '#D6D3CC', gradientMid: '#CCC8C0', gradientEnd: '#C2BEB6', accent1: '#78716C', accent2: '#92400E', glow: 'rgba(120, 113, 108, 0.1)', textPrimary: '#1C1917', textSecondary: '#44403C', textMuted: '#78716C', cardBg: 'rgba(255,255,255,0.45)', orbOpacity: 0.06, showStars: false },
+  sunset: { gradientStart: '#A8A0A0', gradientMid: '#C4AFA0', gradientEnd: '#CCBAA8', accent1: '#92400E', accent2: '#7C3AED', glow: 'rgba(146, 64, 14, 0.1)', textPrimary: '#1C1917', textSecondary: '#44403C', textMuted: '#6B5E54', orbOpacity: 0.08, showStars: false },
+  dusk: { gradientStart: '#0D0F1C', gradientMid: '#121530', gradientEnd: '#161940', accent1: '#6B7280', accent2: '#4B5563', glow: 'rgba(107, 114, 128, 0.1)', orbOpacity: 0.08, showStars: false },
+  night: { gradientStart: '#060810', gradientMid: '#0A0D18', gradientEnd: '#0D1020', accent1: '#6B7280', accent2: '#4B5563', glow: 'rgba(107, 114, 128, 0.1)', orbOpacity: 0.08, showStars: false },
 };
 
 function hourToTheme(hour) {
-  if (hour >= 6 && hour < 10) return 'morning';
-  if (hour >= 10 && hour < 14) return 'midday';
-  if (hour >= 14 && hour < 17) return 'afternoon';
+  if (hour >= 6 && hour < 12) return 'morning';
+  if (hour >= 12 && hour < 15) return 'midday';
+  if (hour >= 15 && hour < 17) return 'afternoon';
   if (hour >= 17 && hour < 19) return 'sunset';
+  // 19:00+ is dusk/night
   if (hour >= 19 && hour < 21) return 'dusk';
   return 'night';
 }
 
+function getPiuraHour() {
+  const now = new Date();
+  const piuraStr = now.toLocaleString('en-US', { timeZone: PIURA_TZ, hour: 'numeric', hour12: false });
+  return parseInt(piuraStr, 10);
+}
+
+// Fetch Piura weather from open-meteo (free, no key)
+async function fetchPiuraWeather() {
+  try {
+    const res = await fetch(
+      'https://api.open-meteo.com/v1/forecast?latitude=-5.1945&longitude=-80.6328&current=weather_code&timezone=America/Lima'
+    );
+    const data = await res.json();
+    const code = data?.current?.weather_code;
+    if (code === undefined || code === null) return 'clear';
+    // WMO codes: 0-1 clear, 2-3 cloudy, 45-48 fog, 51+ rain/drizzle/snow
+    if (code <= 1) return 'clear';
+    if (code <= 3 || (code >= 45 && code <= 48)) return 'cloudy';
+    return 'rain';
+  } catch {
+    return 'clear';
+  }
+}
+
 export function ThemeProvider({ children }) {
   const [autoTime, setAutoTime] = useState(true);
-  const [manualHour, setManualHour] = useState(new Date().getHours());
-  const [rainMode, setRainMode] = useState(false);
-  const [cloudyMode, setCloudyMode] = useState(false);
-  const [weatherMode, setWeatherMode] = useState('clear'); // 'clear' | 'cloudy' | 'rain'
+  const [manualHour, setManualHour] = useState(getPiuraHour());
+  const [weatherMode, setWeatherMode] = useState('clear');
+  const [autoWeather, setAutoWeather] = useState(true);
 
-  const currentHour = autoTime ? new Date().getHours() : manualHour;
+  // On mount: fetch Piura weather
+  useEffect(() => {
+    fetchPiuraWeather().then(w => {
+      if (autoWeather) setWeatherMode(w);
+    });
+  }, []);
+
+  const currentHour = autoTime ? getPiuraHour() : manualHour;
   const currentThemeName = hourToTheme(currentHour);
 
   const theme = useMemo(() => {
@@ -223,10 +255,19 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     if (!autoTime) return;
     const interval = setInterval(() => {
-      setManualHour(new Date().getHours());
+      setManualHour(getPiuraHour());
     }, 60000);
     return () => clearInterval(interval);
   }, [autoTime]);
+
+  // Re-fetch weather every 10 min if auto
+  useEffect(() => {
+    if (!autoWeather) return;
+    const interval = setInterval(() => {
+      fetchPiuraWeather().then(w => setWeatherMode(w));
+    }, 600000);
+    return () => clearInterval(interval);
+  }, [autoWeather]);
 
   const setHour = useCallback((h) => {
     setAutoTime(false);
@@ -235,7 +276,14 @@ export function ThemeProvider({ children }) {
 
   const enableAutoTime = useCallback(() => {
     setAutoTime(true);
-    setManualHour(new Date().getHours());
+    setAutoWeather(true);
+    setManualHour(getPiuraHour());
+    fetchPiuraWeather().then(w => setWeatherMode(w));
+  }, []);
+
+  const handleSetWeatherMode = useCallback((mode) => {
+    setAutoWeather(false);
+    setWeatherMode(mode);
   }, []);
 
   const isRaining = weatherMode === 'rain';
@@ -243,9 +291,9 @@ export function ThemeProvider({ children }) {
 
   return (
     <ThemeContext.Provider value={{
-      theme, currentThemeName, currentHour, autoTime,
+      theme, currentThemeName, currentHour, autoTime, autoWeather,
       rainMode: isRaining, cloudyMode: isCloudy, weatherMode,
-      setHour, enableAutoTime, setWeatherMode,
+      setHour, enableAutoTime, setWeatherMode: handleSetWeatherMode,
     }}>
       {children}
     </ThemeContext.Provider>

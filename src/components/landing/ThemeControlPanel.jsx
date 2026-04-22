@@ -5,15 +5,15 @@ import { Sun, Cloud, CloudRain, Clock, ChevronDown, ChevronUp } from 'lucide-rea
 
 const timeLabels = [
   { hour: 8, label: 'Mañana' },
-  { hour: 12, label: 'Mediodía' },
-  { hour: 15, label: 'Tarde' },
-  { hour: 18, label: 'Atardecer' },
-  { hour: 20, label: 'Anochecer' },
-  { hour: 23, label: 'Noche' },
+  { hour: 13, label: 'Mediodía' },
+  { hour: 16, label: 'Tarde' },
+  { hour: 17, label: 'Atardecer' },
+  { hour: 19, label: 'Anochecer' },
+  { hour: 22, label: 'Noche' },
 ];
 
 export default function ThemeControlPanel() {
-  const { currentHour, autoTime, weatherMode, setHour, enableAutoTime, setWeatherMode, theme } = useTheme();
+  const { currentHour, autoTime, autoWeather, weatherMode, setHour, enableAutoTime, setWeatherMode, theme } = useTheme();
   const [collapsed, setCollapsed] = useState(false);
 
   const weatherOptions = [
@@ -113,12 +113,12 @@ export default function ThemeControlPanel() {
                     onClick={enableAutoTime}
                     className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border text-[10px] font-mono tracking-wider transition-all duration-300"
                     style={{
-                      borderColor: autoTime ? `${theme.accent1}50` : theme.panelBorder,
-                      color: autoTime ? theme.accent1 : theme.textMuted,
-                      background: autoTime ? `${theme.accent1}10` : 'transparent',
+                      borderColor: (autoTime && autoWeather) ? `${theme.accent1}50` : theme.panelBorder,
+                      color: (autoTime && autoWeather) ? theme.accent1 : theme.textMuted,
+                      background: (autoTime && autoWeather) ? `${theme.accent1}10` : 'transparent',
                     }}
                   >
-                    <Clock size={10} /> Automático
+                    <Clock size={10} /> Auto (Piura)
                   </button>
                   <div className="grid grid-cols-3 gap-1.5">
                     {weatherOptions.map(w => {

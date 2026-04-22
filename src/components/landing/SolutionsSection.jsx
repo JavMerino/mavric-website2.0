@@ -7,25 +7,25 @@ const solutions = [
   {
     icon: Code2,
     title: 'Desarrollo de Software a Medida',
-    desc: 'Plataformas diseñadas en torno a tus operaciones — no al revés. Construidas para escalar, rendir y generar valor a largo plazo.',
+    desc: 'Construimos plataformas y aplicaciones de negocio adaptadas a tus procesos reales. Arquitectura limpia, código escalable y enfoque en resultados operativos.',
     tag: 'DESARROLLO',
   },
   {
     icon: Workflow,
     title: 'Automatización de Procesos',
-    desc: 'Elimina cuellos de botella manuales con automatización inteligente que conecta tus flujos, sistemas y equipos sin fricciones.',
+    desc: 'Integramos y automatizamos flujos de trabajo entre tus sistemas, eliminando tareas manuales y reduciendo errores para que tu equipo se enfoque en lo estratégico.',
     tag: 'AUTOMATIZACIÓN',
   },
   {
     icon: Cloud,
     title: 'Plataformas Cloud Escalables',
-    desc: 'Infraestructura diseñada para crecer con tu negocio. Segura, resiliente y optimizada para el rendimiento a cualquier escala.',
+    desc: 'Diseñamos infraestructura en la nube preparada para crecer contigo. Alta disponibilidad, seguridad integrada y optimización continua del rendimiento.',
     tag: 'CLOUD',
   },
   {
     icon: Brain,
-    title: 'Herramientas con IA y Analítica',
-    desc: 'Transforma datos en ventaja estratégica con modelos de IA a medida, analítica predictiva y motores de decisión inteligentes.',
+    title: 'IA Aplicada y Analítica Avanzada',
+    desc: 'Convertimos tus datos en decisiones con modelos de inteligencia artificial, dashboards analíticos y herramientas predictivas que generan ventaja competitiva real.',
     tag: 'IA / ML',
   },
 ];
@@ -106,16 +106,16 @@ export default function SolutionsSection() {
           className="text-center mb-16"
         >
           <span className="text-xs font-mono tracking-widest uppercase mb-4 block" style={{ color: theme.accent1 }}>
-            02 // Lo Que Construimos
+            02 // Nuestros Servicios
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4 transition-colors duration-700" style={{ color: theme.textPrimary }}>
-            Soluciones de{' '}
+            Tecnología con{' '}
             <span className="bg-clip-text text-transparent" style={{ backgroundImage: theme.btnBg }}>
-              Precisión
+              Propósito
             </span>
           </h2>
           <p className="max-w-xl mx-auto text-lg transition-colors duration-700" style={{ color: theme.textMuted }}>
-            Cada sistema que entregamos está diseñado para generar impacto empresarial medible.
+            Soluciones digitales enfocadas en optimizar operaciones, integrar sistemas y acelerar el crecimiento de tu empresa.
           </p>
         </motion.div>
 

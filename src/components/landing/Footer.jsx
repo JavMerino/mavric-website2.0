@@ -21,8 +21,8 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm leading-relaxed max-w-xs transition-colors duration-700" style={{ color: theme.textMuted }}>
-              Sistemas de software de precisión, automatización y soluciones
-              de IA para empresas con visión de futuro.
+              Desarrollo de software, automatización de procesos, plataformas
+              cloud y soluciones con IA para empresas que buscan crecer con tecnología.
             </p>
           </div>
 
@@ -68,7 +68,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Mavric Technologies. Todos los derechos reservados.
           </p>
           <p className="text-xs font-mono transition-colors duration-700" style={{ color: theme.textMuted }}>
-            Diseñado con precisión.
+            Tecnología con propósito.
           </p>
         </div>
       </div>

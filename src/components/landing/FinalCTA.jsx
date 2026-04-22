@@ -24,18 +24,18 @@ export default function FinalCTA() {
           className="relative z-10"
         >
           <span className="text-xs font-mono tracking-widest uppercase mb-6 block" style={{ color: theme.accent1 }}>
-            05 // Construyamos Juntos
+            05 // Siguiente Paso
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-6 leading-tight transition-colors duration-700" style={{ color: theme.textPrimary }}>
-            ¿Listo Para Diseñar{' '}
+            ¿Listo para optimizar{' '}
             <span className="bg-clip-text text-transparent" style={{ backgroundImage: theme.btnBg }}>
-              Tu Ventaja
+              tu operación
             </span>
             ?
           </h2>
           <p className="text-lg mb-10 max-w-lg mx-auto transition-colors duration-700" style={{ color: theme.textMuted }}>
-            Ya sea una nueva plataforma, una transformación en automatización, o una
-            iniciativa de IA — trazamos el camino más rápido hacia un impacto medible.
+            Cuéntanos tu desafío. Diseñamos la solución técnica, definimos el roadmap
+            y ejecutamos de principio a fin — con foco en eficiencia y resultados reales.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">

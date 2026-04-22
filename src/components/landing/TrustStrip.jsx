@@ -27,9 +27,9 @@ function AnimatedCounter({ target, suffix = '', duration = 2000 }) {
 
 const metrics = [
   { icon: Zap, value: '50', suffix: '+', label: 'Proyectos Entregados' },
-  { icon: BarChart3, value: '40', suffix: '%', label: 'Operaciones Más Rápidas' },
-  { icon: Cpu, value: '200', suffix: '+', label: 'Flujos Automatizados' },
-  { icon: Cloud, value: '99', suffix: '.9%', label: 'Disponibilidad del Sistema' },
+  { icon: BarChart3, value: '40', suffix: '%', label: 'Más Eficiencia Operativa' },
+  { icon: Cpu, value: '200', suffix: '+', label: 'Procesos Automatizados' },
+  { icon: Cloud, value: '99', suffix: '.9%', label: 'Disponibilidad Garantizada' },
 ];
 
 export default function TrustStrip() {

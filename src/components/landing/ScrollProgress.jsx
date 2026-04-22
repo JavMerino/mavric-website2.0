@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
 
 const sections = [
-  { id: 'hero', label: '01 // VISIÓN' },
-  { id: 'solutions', label: '02 // SOLUCIONES' },
+  { id: 'hero', label: '01 // INICIO' },
+  { id: 'solutions', label: '02 // SERVICIOS' },
   { id: 'why-mavric', label: '03 // NOSOTROS' },
-  { id: 'work', label: '04 // PROYECTOS' },
+  { id: 'work', label: '04 // CASOS' },
   { id: 'contact', label: '05 // CONTACTO' },
 ];
 

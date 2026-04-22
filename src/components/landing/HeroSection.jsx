@@ -107,11 +107,10 @@ export default function HeroSection() {
               className="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold leading-[1.1] mb-6 transition-colors duration-700"
               style={{ color: theme.textPrimary }}
             >
-              Diseñamos el{' '}
+              Software a medida para empresas que buscan{' '}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: theme.btnBg }}>
-                Software
-              </span>{' '}
-              Que Impulsa Tu Próximo Paso
+                crecer con tecnología
+              </span>
             </motion.h1>
 
             <motion.p
@@ -121,8 +120,9 @@ export default function HeroSection() {
               className="text-lg leading-relaxed max-w-lg mb-10 transition-colors duration-700"
               style={{ color: theme.textMuted }}
             >
-              Desde plataformas a medida hasta automatización con IA, diseñamos y
-              construimos sistemas digitales de precisión que escalan con tu ambición.
+              Diseñamos y desarrollamos plataformas, automatizaciones y soluciones
+              digitales que optimizan procesos, mejoran la operación y te ayudan a
+              escalar con más eficiencia.
             </motion.p>
 
             <motion.div
@@ -144,7 +144,7 @@ export default function HeroSection() {
                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
               </a>
               <a
-                href="#work"
+                href="#solutions"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-medium border transition-all duration-500 hover:scale-105"
                 style={{
                   color: theme.textSecondary,
@@ -153,7 +153,7 @@ export default function HeroSection() {
                   backdropFilter: 'blur(8px)',
                 }}
               >
-                Ver Proyectos
+                Ver Soluciones
               </a>
             </motion.div>
 
@@ -165,8 +165,8 @@ export default function HeroSection() {
             >
               {[
                 { val: '50+', label: 'Proyectos Entregados' },
-                { val: '99.9%', label: 'SLA de Uptime' },
-                { val: '3x', label: 'Entrega Más Rápida' },
+                { val: '99.9%', label: 'Disponibilidad' },
+                { val: '3x', label: 'Mayor Eficiencia' },
               ].map((m, i) => (
                 <div key={i}>
                   <div className="text-2xl font-heading font-bold" style={{ color: theme.accent1 }}>

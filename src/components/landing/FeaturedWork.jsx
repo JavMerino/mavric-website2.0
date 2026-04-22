@@ -5,28 +5,28 @@ import { ArrowUpRight } from 'lucide-react';
 
 const cases = [
   {
-    tag: 'DASHBOARD EMPRESARIAL',
-    title: 'Centro de Operaciones en Tiempo Real',
-    challenge: 'Una empresa logística necesitaba visibilidad unificada de 12 oficinas regionales con sistemas de datos fragmentados.',
-    solution: 'Construimos un centro de mando cloud-native con agregación de datos en vivo, vistas por rol y alertas predictivas.',
-    outcome: 'Reducción del 40% en tiempo de respuesta. Visibilidad operativa completa en un solo panel.',
-    gradient: ['#4F7CFF', '#22D3EE'],
+    tag: 'PLATAFORMA DE GESTIÓN',
+    title: 'Sistema de Control Operativo Centralizado',
+    challenge: 'Una empresa con operaciones distribuidas necesitaba unificar datos de múltiples sedes y eliminar reportes manuales.',
+    solution: 'Desarrollamos una plataforma cloud con dashboards en tiempo real, alertas automáticas y vistas personalizadas por rol y sede.',
+    outcome: 'Reducción del 40% en tiempos de reporte. Toma de decisiones centralizada y basada en datos.',
+    gradient: ['#2563EB', '#0891B2'],
   },
   {
-    tag: 'AUTOMATIZACIÓN DE FLUJOS',
-    title: 'Motor de Procesos Inteligente',
-    challenge: 'Una firma financiera perdía más de 200 horas/mes en reconciliación manual de datos y controles de cumplimiento.',
-    solution: 'Diseñamos una capa de automatización integrando su CRM, contabilidad y herramientas de compliance con reglas de validación inteligentes.',
-    outcome: '85% de tareas manuales eliminadas. Reportes de cumplimiento 3x más rápidos.',
-    gradient: ['#6D5EF9', '#7A3BFF'],
+    tag: 'AUTOMATIZACIÓN EMPRESARIAL',
+    title: 'Integración y Automatización de Procesos',
+    challenge: 'Una empresa de servicios financieros invertía más de 200 horas/mes en reconciliación manual entre CRM, contabilidad y compliance.',
+    solution: 'Diseñamos un motor de automatización que conecta sus sistemas internos con reglas de validación inteligentes y flujos sin intervención manual.',
+    outcome: '85% de tareas repetitivas eliminadas. Reportes de cumplimiento generados 3x más rápido.',
+    gradient: ['#6D5EF9', '#7C3AED'],
   },
   {
-    tag: 'ANALÍTICA CON IA',
-    title: 'Plataforma de Ingresos Predictivos',
-    challenge: 'Una empresa SaaS no tenía visibilidad sobre señales de churn ni oportunidades de upsell en su base de clientes.',
-    solution: 'Implementamos modelos ML personalizados para predicción de churn y un dashboard de analítica con recomendaciones accionables.',
-    outcome: 'Reducción del 22% en churn. $1.2M en ingresos de upsell identificados en 6 meses.',
-    gradient: ['#FF7A18', '#6D5EF9'],
+    tag: 'ANALÍTICA E INTELIGENCIA ARTIFICIAL',
+    title: 'Sistema de Analítica Predictiva',
+    challenge: 'Una empresa de tecnología carecía de herramientas para anticipar la rotación de clientes e identificar oportunidades de crecimiento.',
+    solution: 'Implementamos modelos de machine learning para predicción de churn y un panel analítico con recomendaciones accionables para el equipo comercial.',
+    outcome: 'Reducción del 22% en churn. Más de $1.2M en oportunidades de upsell detectadas en 6 meses.',
+    gradient: ['#EA580C', '#6D5EF9'],
   },
 ];
 
@@ -44,12 +44,12 @@ export default function FeaturedWork() {
           className="text-center mb-16"
         >
           <span className="text-xs font-mono tracking-widest uppercase mb-4 block" style={{ color: theme.accent1 }}>
-            04 // Trabajo Destacado
+            04 // Casos de Éxito
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4 transition-colors duration-700" style={{ color: theme.textPrimary }}>
-            Construido para{' '}
+            Resultados que{' '}
             <span className="bg-clip-text text-transparent" style={{ backgroundImage: theme.btnBg }}>
-              Rendir
+              Hablan
             </span>
           </h2>
         </motion.div>

@@ -4,12 +4,12 @@ import { useTheme } from '@/lib/ThemeContext';
 import { Target, Layers, Shield, ArrowUpRight, Palette, GitBranch } from 'lucide-react';
 
 const differentiators = [
-  { icon: Target, title: 'Enfoque Estratégico', desc: 'Mapeamos el software según tu lógica de negocio — no al revés.' },
-  { icon: Layers, title: 'Arquitectura Escalable', desc: 'Sistemas diseñados para crecer 10x sin necesidad de rediseño.' },
-  { icon: Palette, title: 'UX/UI Impecable', desc: 'Interfaces que tus equipos realmente quieren usar, todos los días.' },
-  { icon: GitBranch, title: 'Ejecución de Extremo a Extremo', desc: 'Desde el descubrimiento hasta el despliegue y la evolución continua.' },
-  { icon: Shield, title: 'Seguridad Empresarial', desc: 'Cumplimiento, cifrado y controles de acceso integrados desde el día uno.' },
-  { icon: ArrowUpRight, title: 'ROI Medible', desc: 'Cada proyecto está vinculado a resultados de negocio cuantificables.' },
+  { icon: Target, title: 'Análisis de Procesos', desc: 'Entendemos tu operación antes de escribir código. Diseñamos soluciones alineadas a tu lógica de negocio.' },
+  { icon: Layers, title: 'Arquitectura Escalable', desc: 'Plataformas preparadas para multiplicar su capacidad sin rediseño ni interrupciones operativas.' },
+  { icon: Palette, title: 'Diseño de Producto Digital', desc: 'Interfaces claras, funcionales y modernas que tus equipos adoptan desde el primer día.' },
+  { icon: GitBranch, title: 'Integración de Sistemas', desc: 'Conectamos tus herramientas existentes en un ecosistema unificado y automatizado.' },
+  { icon: Shield, title: 'Seguridad y Cumplimiento', desc: 'Cifrado, control de acceso y auditoría integrados en cada capa de la solución.' },
+  { icon: ArrowUpRight, title: 'Resultados Medibles', desc: 'Definimos KPIs desde el inicio. Cada entrega se mide por su impacto en la operación.' },
 ];
 
 export default function WhyMavricSection() {
@@ -29,15 +29,15 @@ export default function WhyMavricSection() {
               03 // Por Qué Mavric
             </span>
             <h2 className="text-3xl sm:text-4xl font-heading font-bold mb-6 leading-tight transition-colors duration-700" style={{ color: theme.textPrimary }}>
-              No Solo Código.{' '}
+              Tecnología que{' '}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: theme.btnBg }}>
-                Resultados Diseñados.
+                Transforma Operaciones.
               </span>
             </h2>
             <p className="text-lg leading-relaxed max-w-md transition-colors duration-700" style={{ color: theme.textMuted }}>
-              No entregamos funcionalidades — entregamos ventaja operativa. Cada
-              sistema se construye con profundo entendimiento de tu contexto de negocio,
-              asegurando que la tecnología se convierta en tu diferencial competitivo.
+              No desarrollamos software genérico — diseñamos sistemas que resuelven
+              problemas reales de tu operación. Cada proyecto parte de un análisis profundo
+              de tus procesos para que la tecnología trabaje a favor de tus objetivos.
             </p>
           </motion.div>
 
