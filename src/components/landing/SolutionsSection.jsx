@@ -6,27 +6,27 @@ import { Code2, Workflow, Cloud, Brain } from 'lucide-react';
 const solutions = [
   {
     icon: Code2,
-    title: 'Custom Software Development',
-    desc: 'Bespoke platforms designed around your operations — not the other way around. Built for scale, speed, and long-term value.',
-    tag: 'DEVELOPMENT',
+    title: 'Desarrollo de Software a Medida',
+    desc: 'Plataformas diseñadas en torno a tus operaciones — no al revés. Construidas para escalar, rendir y generar valor a largo plazo.',
+    tag: 'DESARROLLO',
   },
   {
     icon: Workflow,
-    title: 'Business Process Automation',
-    desc: 'Eliminate manual bottlenecks with intelligent automation that connects your workflows, systems, and teams seamlessly.',
-    tag: 'AUTOMATION',
+    title: 'Automatización de Procesos',
+    desc: 'Elimina cuellos de botella manuales con automatización inteligente que conecta tus flujos, sistemas y equipos sin fricciones.',
+    tag: 'AUTOMATIZACIÓN',
   },
   {
     icon: Cloud,
-    title: 'Scalable Cloud Platforms',
-    desc: 'Infrastructure engineered to grow with your business. Secure, resilient, and optimized for performance at any scale.',
+    title: 'Plataformas Cloud Escalables',
+    desc: 'Infraestructura diseñada para crecer con tu negocio. Segura, resiliente y optimizada para el rendimiento a cualquier escala.',
     tag: 'CLOUD',
   },
   {
     icon: Brain,
-    title: 'AI-Powered Tools & Analytics',
-    desc: 'Transform raw data into strategic advantage with custom AI models, predictive analytics, and intelligent decision engines.',
-    tag: 'AI / ML',
+    title: 'Herramientas con IA y Analítica',
+    desc: 'Transforma datos en ventaja estratégica con modelos de IA a medida, analítica predictiva y motores de decisión inteligentes.',
+    tag: 'IA / ML',
   },
 ];
 
@@ -54,13 +54,13 @@ function SolutionCard({ solution, index }) {
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.7, delay: index * 0.12 }}
       onMouseMove={handleMouse}
-      className="group relative rounded-2xl border overflow-hidden cursor-pointer transition-all duration-500 hover:border-white/10"
+      className="group relative rounded-2xl border overflow-hidden cursor-pointer transition-all duration-700"
       style={{
-        background: 'rgba(16, 24, 43, 0.5)',
-        borderColor: 'rgba(248, 250, 252, 0.05)',
+        background: theme.cardBg,
+        borderColor: theme.cardBorder,
+        backdropFilter: 'blur(16px)',
       }}
     >
-      {/* Cursor glow */}
       <motion.div
         className="absolute w-60 h-60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-0"
         style={{
@@ -68,26 +68,23 @@ function SolutionCard({ solution, index }) {
           top: glowY,
           x: '-50%',
           y: '-50%',
-          background: `radial-gradient(circle, ${theme.accent1}15, transparent 70%)`,
+          background: `radial-gradient(circle, ${theme.accent1}18, transparent 70%)`,
         }}
       />
 
       <div className="relative z-10 p-7">
         <div className="flex items-center justify-between mb-5">
-          <div
-            className="w-11 h-11 rounded-xl flex items-center justify-center"
-            style={{ background: `${theme.accent1}12` }}
-          >
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center transition-colors duration-700" style={{ background: `${theme.accent1}15` }}>
             <solution.icon size={20} style={{ color: theme.accent1 }} />
           </div>
-          <span className="text-[10px] font-mono tracking-widest text-mavric-text-muted px-2.5 py-1 rounded-full border" style={{ borderColor: 'rgba(248,250,252,0.08)' }}>
+          <span className="text-[10px] font-mono tracking-widest px-2.5 py-1 rounded-full border transition-colors duration-700" style={{ borderColor: theme.cardBorder, color: theme.textMuted }}>
             {solution.tag}
           </span>
         </div>
-        <h3 className="text-lg font-heading font-semibold text-mavric-text mb-3">
+        <h3 className="text-lg font-heading font-semibold mb-3 transition-colors duration-700" style={{ color: theme.textPrimary }}>
           {solution.title}
         </h3>
-        <p className="text-sm text-mavric-text-muted leading-relaxed font-body">
+        <p className="text-sm leading-relaxed font-body transition-colors duration-700" style={{ color: theme.textMuted }}>
           {solution.desc}
         </p>
       </div>
@@ -101,7 +98,6 @@ export default function SolutionsSection() {
   return (
     <section id="solutions" className="relative py-24 px-6">
       <div className="max-w-7xl mx-auto">
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -110,20 +106,19 @@ export default function SolutionsSection() {
           className="text-center mb-16"
         >
           <span className="text-xs font-mono tracking-widest uppercase mb-4 block" style={{ color: theme.accent1 }}>
-            02 // What We Build
+            02 // Lo Que Construimos
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-mavric-text mb-4">
-            Precision-Built{' '}
-            <span className="bg-clip-text text-transparent" style={{ backgroundImage: `linear-gradient(135deg, ${theme.accent1}, ${theme.accent2})` }}>
-              Solutions
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4 transition-colors duration-700" style={{ color: theme.textPrimary }}>
+            Soluciones de{' '}
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: theme.btnBg }}>
+              Precisión
             </span>
           </h2>
-          <p className="text-mavric-text-muted max-w-xl mx-auto text-lg">
-            Every system we deliver is engineered for measurable business impact.
+          <p className="max-w-xl mx-auto text-lg transition-colors duration-700" style={{ color: theme.textMuted }}>
+            Cada sistema que entregamos está diseñado para generar impacto empresarial medible.
           </p>
         </motion.div>
 
-        {/* Cards grid */}
         <div className="grid sm:grid-cols-2 gap-5">
           {solutions.map((s, i) => (
             <SolutionCard key={i} solution={s} index={i} />

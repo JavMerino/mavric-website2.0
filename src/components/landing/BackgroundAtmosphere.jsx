@@ -36,31 +36,32 @@ function StarField({ count = 60, color }) {
 }
 
 export default function BackgroundAtmosphere() {
-  const { theme, currentThemeName } = useTheme();
+  const { theme, cloudyMode } = useTheme();
 
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden" style={{ background: theme.gradientStart }}>
+    <div className="fixed inset-0 -z-10 overflow-hidden transition-colors duration-1000" style={{ background: theme.gradientStart }}>
       {/* Base gradient */}
       <motion.div
         className="absolute inset-0"
         animate={{
           background: `linear-gradient(180deg, ${theme.gradientStart} 0%, ${theme.gradientMid} 50%, ${theme.gradientEnd} 100%)`,
         }}
-        transition={{ duration: 2, ease: 'easeInOut' }}
+        transition={{ duration: 1.5, ease: 'easeInOut' }}
       />
 
       {/* Aura glow */}
       <motion.div
         className="absolute inset-0"
         animate={{ background: theme.aura }}
-        transition={{ duration: 2, ease: 'easeInOut' }}
+        transition={{ duration: 1.5, ease: 'easeInOut' }}
       />
 
       {/* Orb 1 */}
       <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-20"
+        className="absolute w-[600px] h-[600px] rounded-full blur-[120px]"
         animate={{
           background: theme.accent1,
+          opacity: theme.orbOpacity,
           x: [0, 50, -30, 0],
           y: [0, -30, 20, 0],
         }}
@@ -70,9 +71,10 @@ export default function BackgroundAtmosphere() {
 
       {/* Orb 2 */}
       <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full blur-[100px] opacity-15"
+        className="absolute w-[500px] h-[500px] rounded-full blur-[100px]"
         animate={{
           background: theme.accent2,
+          opacity: theme.orbOpacity * 0.75,
           x: [0, -40, 30, 0],
           y: [0, 40, -20, 0],
         }}
@@ -80,21 +82,38 @@ export default function BackgroundAtmosphere() {
         style={{ top: '40%', right: '10%' }}
       />
 
-      {/* Stars for night */}
-      {(currentThemeName === 'night' || currentThemeName === 'sunset') && (
+      {/* Stars */}
+      {theme.showStars && !cloudyMode && (
         <StarField
-          count={currentThemeName === 'night' ? 80 : 30}
+          count={theme.starCount || 60}
           color={theme.particleColor}
+        />
+      )}
+
+      {/* Cloudy overlay */}
+      {cloudyMode && (
+        <motion.div
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.5 }}
+          style={{
+            background: theme.isLight
+              ? 'linear-gradient(180deg, rgba(156,163,175,0.3) 0%, rgba(209,213,219,0.2) 50%, transparent 100%)'
+              : 'linear-gradient(180deg, rgba(30,41,59,0.4) 0%, rgba(51,65,85,0.2) 50%, transparent 100%)',
+          }}
         />
       )}
 
       {/* Grid overlay */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0"
         style={{
+          opacity: 0.5,
           backgroundImage: `
-            linear-gradient(rgba(248,250,252,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(248,250,252,0.1) 1px, transparent 1px)
+            linear-gradient(${theme.gridLine} 1px, transparent 1px),
+            linear-gradient(90deg, ${theme.gridLine} 1px, transparent 1px)
           `,
           backgroundSize: '60px 60px',
         }}

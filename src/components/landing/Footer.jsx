@@ -5,70 +5,70 @@ export default function Footer() {
   const { theme } = useTheme();
 
   return (
-    <footer className="relative py-16 px-6 border-t" style={{ borderColor: 'rgba(248,250,252,0.05)' }}>
+    <footer className="relative py-16 px-6 border-t transition-colors duration-700" style={{ borderColor: theme.footerBorder }}>
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-3 gap-12">
-          {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div
-                className="w-7 h-7 rounded-lg flex items-center justify-center font-heading font-bold text-xs"
-                style={{
-                  background: `linear-gradient(135deg, ${theme.accent1}, ${theme.accent2})`,
-                }}
+                className="w-7 h-7 rounded-lg flex items-center justify-center font-heading font-bold text-xs text-white"
+                style={{ background: theme.btnBg }}
               >
                 M
               </div>
-              <span className="font-heading font-semibold text-mavric-text tracking-tight">
+              <span className="font-heading font-semibold tracking-tight transition-colors duration-700" style={{ color: theme.textPrimary }}>
                 MAVRIC TECHNOLOGIES
               </span>
             </div>
-            <p className="text-sm text-mavric-text-muted leading-relaxed max-w-xs">
-              Precision-engineered software systems, automation, and AI
-              solutions for forward-thinking businesses.
+            <p className="text-sm leading-relaxed max-w-xs transition-colors duration-700" style={{ color: theme.textMuted }}>
+              Sistemas de software de precisión, automatización y soluciones
+              de IA para empresas con visión de futuro.
             </p>
           </div>
 
-          {/* Links */}
           <div className="grid grid-cols-2 gap-8">
             <div>
-              <h4 className="text-xs font-mono tracking-widest text-mavric-text-muted mb-4 uppercase">Company</h4>
+              <h4 className="text-xs font-mono tracking-widest mb-4 uppercase transition-colors duration-700" style={{ color: theme.textMuted }}>Empresa</h4>
               <div className="flex flex-col gap-3">
-                {['Services', 'Solutions', 'Work', 'Contact'].map(link => (
-                  <a key={link} href={`#${link.toLowerCase()}`} className="text-sm text-mavric-text-dim hover:text-mavric-text transition-colors">
-                    {link}
+                {[
+                  { label: 'Servicios', href: '#solutions' },
+                  { label: 'Soluciones', href: '#why-mavric' },
+                  { label: 'Proyectos', href: '#work' },
+                  { label: 'Contacto', href: '#contact' },
+                ].map(link => (
+                  <a key={link.label} href={link.href} className="text-sm transition-colors duration-500" style={{ color: theme.textSecondary }}>
+                    {link.label}
                   </a>
                 ))}
               </div>
             </div>
             <div>
-              <h4 className="text-xs font-mono tracking-widest text-mavric-text-muted mb-4 uppercase">Connect</h4>
+              <h4 className="text-xs font-mono tracking-widest mb-4 uppercase transition-colors duration-700" style={{ color: theme.textMuted }}>Conectar</h4>
               <div className="flex flex-col gap-3">
-                <a href="mailto:hello@mavrictechnologies.com" className="text-sm text-mavric-text-dim hover:text-mavric-text transition-colors">
-                  Email Us
+                <a href="mailto:hello@mavrictechnologies.com" className="text-sm transition-colors" style={{ color: theme.textSecondary }}>
+                  Escríbenos
                 </a>
-                <a href="#" className="text-sm text-mavric-text-dim hover:text-mavric-text transition-colors">
+                <a href="#" className="text-sm transition-colors" style={{ color: theme.textSecondary }}>
                   LinkedIn
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Contact */}
           <div>
-            <h4 className="text-xs font-mono tracking-widest text-mavric-text-muted mb-4 uppercase">Get in Touch</h4>
-            <a href="mailto:hello@mavrictechnologies.com" className="text-sm hover:text-mavric-text transition-colors" style={{ color: theme.accent1 }}>
+            <h4 className="text-xs font-mono tracking-widest mb-4 uppercase transition-colors duration-700" style={{ color: theme.textMuted }}>Contacto</h4>
+            <a href="mailto:hello@mavrictechnologies.com" className="text-sm transition-colors" style={{ color: theme.accent1 }}>
               hello@mavrictechnologies.com
             </a>
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t flex flex-col sm:flex-row justify-between items-center gap-4" style={{ borderColor: 'rgba(248,250,252,0.05)' }}>
-          <p className="text-xs text-mavric-text-muted">
-            © {new Date().getFullYear()} Mavric Technologies. All rights reserved.
+        <div className="mt-16 pt-8 border-t flex flex-col sm:flex-row justify-between items-center gap-4 transition-colors duration-700" style={{ borderColor: theme.footerBorder }}>
+          <p className="text-xs transition-colors duration-700" style={{ color: theme.textMuted }}>
+            © {new Date().getFullYear()} Mavric Technologies. Todos los derechos reservados.
           </p>
-          <p className="text-xs text-mavric-text-muted font-mono">
-            Engineered with precision.
+          <p className="text-xs font-mono transition-colors duration-700" style={{ color: theme.textMuted }}>
+            Diseñado con precisión.
           </p>
         </div>
       </div>

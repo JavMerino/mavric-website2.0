@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
 
 const sections = [
-  { id: 'hero', label: '01 // VISION' },
-  { id: 'solutions', label: '02 // SOLUTIONS' },
-  { id: 'why-mavric', label: '03 // WHY US' },
-  { id: 'work', label: '04 // WORK' },
-  { id: 'contact', label: '05 // CONTACT' },
+  { id: 'hero', label: '01 // VISIÓN' },
+  { id: 'solutions', label: '02 // SOLUCIONES' },
+  { id: 'why-mavric', label: '03 // NOSOTROS' },
+  { id: 'work', label: '04 // PROYECTOS' },
+  { id: 'contact', label: '05 // CONTACTO' },
 ];
 
 export default function ScrollProgress() {
@@ -20,7 +20,6 @@ export default function ScrollProgress() {
       const total = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(total > 0 ? window.scrollY / total : 0);
 
-      // Find active section
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i].id);
         if (el && el.getBoundingClientRect().top <= 200) {
@@ -35,7 +34,7 @@ export default function ScrollProgress() {
 
   return (
     <div className="fixed right-4 top-1/2 -translate-y-1/2 z-30 hidden lg:flex flex-col items-center gap-2">
-      <div className="w-[2px] h-32 bg-white/5 rounded-full relative overflow-hidden">
+      <div className="w-[2px] h-32 rounded-full relative overflow-hidden" style={{ background: `${theme.textMuted}15` }}>
         <motion.div
           className="absolute top-0 left-0 w-full rounded-full"
           style={{ background: theme.accent1 }}

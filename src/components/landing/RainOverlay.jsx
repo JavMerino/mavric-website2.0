@@ -3,7 +3,7 @@ import { useTheme } from '@/lib/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function RainOverlay() {
-  const { rainMode } = useTheme();
+  const { rainMode, theme } = useTheme();
   const canvasRef = useRef(null);
   const animRef = useRef(null);
   const dropsRef = useRef([]);
@@ -26,26 +26,35 @@ export default function RainOverlay() {
     };
     window.addEventListener('resize', resize);
 
-    // Initialize drops
-    dropsRef.current = Array.from({ length: 150 }, () => ({
+    dropsRef.current = Array.from({ length: 160 }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      len: Math.random() * 20 + 10,
-      speed: Math.random() * 8 + 4,
-      opacity: Math.random() * 0.3 + 0.1,
-      width: Math.random() * 1.2 + 0.3,
+      len: Math.random() * 22 + 8,
+      speed: Math.random() * 7 + 4,
+      opacity: Math.random() * 0.35 + 0.15,
+      width: Math.random() * 1.2 + 0.4,
     }));
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
-      ctx.strokeStyle = 'rgba(148, 194, 255, 0.35)';
 
       dropsRef.current.forEach(drop => {
+        // Main drop line
         ctx.beginPath();
+        ctx.strokeStyle = theme.rainColor;
         ctx.lineWidth = drop.width;
         ctx.globalAlpha = drop.opacity;
         ctx.moveTo(drop.x, drop.y);
-        ctx.lineTo(drop.x + 1, drop.y + drop.len);
+        ctx.lineTo(drop.x + 0.5, drop.y + drop.len);
+        ctx.stroke();
+
+        // Subtle highlight streak
+        ctx.beginPath();
+        ctx.strokeStyle = theme.rainHighlight || 'rgba(255,255,255,0.08)';
+        ctx.lineWidth = drop.width * 0.5;
+        ctx.globalAlpha = drop.opacity * 0.4;
+        ctx.moveTo(drop.x + 0.8, drop.y + 2);
+        ctx.lineTo(drop.x + 1, drop.y + drop.len * 0.6);
         ctx.stroke();
 
         drop.y += drop.speed;
@@ -64,7 +73,7 @@ export default function RainOverlay() {
       window.removeEventListener('resize', resize);
       if (animRef.current) cancelAnimationFrame(animRef.current);
     };
-  }, [rainMode]);
+  }, [rainMode, theme.rainColor, theme.rainHighlight]);
 
   return (
     <AnimatePresence>
@@ -75,7 +84,7 @@ export default function RainOverlay() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 1.2 }}
         />
       )}
     </AnimatePresence>

@@ -4,10 +4,10 @@ import { Menu, X } from 'lucide-react';
 import { useTheme } from '@/lib/ThemeContext';
 
 const navLinks = [
-  { label: 'Services', href: '#solutions' },
-  { label: 'Solutions', href: '#why-mavric' },
-  { label: 'Work', href: '#work' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Servicios', href: '#solutions' },
+  { label: 'Soluciones', href: '#why-mavric' },
+  { label: 'Proyectos', href: '#work' },
+  { label: 'Contacto', href: '#contact' },
 ];
 
 export default function Navbar() {
@@ -29,59 +29,55 @@ export default function Navbar() {
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
       <div
-        className="transition-all duration-500"
+        className="transition-all duration-700"
         style={{
-          background: scrolled
-            ? 'rgba(7, 11, 20, 0.85)'
-            : 'rgba(7, 11, 20, 0.3)',
+          background: scrolled ? theme.navBg : `${theme.navBg}80`,
           backdropFilter: scrolled ? 'blur(24px) saturate(1.4)' : 'blur(8px)',
-          borderBottom: scrolled
-            ? '1px solid rgba(248, 250, 252, 0.06)'
-            : '1px solid transparent',
+          borderBottom: scrolled ? `1px solid ${theme.navBorder}` : '1px solid transparent',
         }}
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          {/* Logo */}
           <a href="#" className="flex items-center gap-2 group">
             <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center font-heading font-bold text-sm"
-              style={{
-                background: `linear-gradient(135deg, ${theme.accent1}, ${theme.accent2})`,
-              }}
+              className="w-8 h-8 rounded-lg flex items-center justify-center font-heading font-bold text-sm text-white"
+              style={{ background: theme.btnBg }}
             >
               M
             </div>
-            <span className="font-heading font-semibold text-mavric-text tracking-tight text-lg">
+            <span className="font-heading font-semibold tracking-tight text-lg transition-colors duration-700" style={{ color: theme.textPrimary }}>
               MAVRIC
             </span>
           </a>
 
-          {/* Desktop links */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map(link => (
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm text-mavric-text-muted hover:text-mavric-text transition-colors duration-300 font-body"
+                className="text-sm font-body transition-colors duration-500"
+                style={{ color: theme.textMuted }}
+                onMouseEnter={e => e.target.style.color = theme.textPrimary}
+                onMouseLeave={e => e.target.style.color = theme.textMuted}
               >
                 {link.label}
               </a>
             ))}
             <a
               href="#contact"
-              className="px-5 py-2 rounded-lg text-sm font-medium text-mavric-text transition-all duration-300 hover:shadow-lg"
+              className="px-5 py-2 rounded-lg text-sm font-medium transition-all duration-500 hover:shadow-lg hover:scale-105"
               style={{
-                background: `linear-gradient(135deg, ${theme.accent1}, ${theme.accent2})`,
+                background: theme.btnBg,
+                color: theme.btnText,
                 boxShadow: `0 0 20px ${theme.glow}`,
               }}
             >
-              Book a Consultation
+              Agendar Consulta
             </a>
           </div>
 
-          {/* Mobile toggle */}
           <button
-            className="md:hidden text-mavric-text p-2"
+            className="md:hidden p-2 transition-colors duration-500"
+            style={{ color: theme.textPrimary }}
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -89,7 +85,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -98,7 +93,7 @@ export default function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden overflow-hidden"
             style={{
-              background: 'rgba(7, 11, 20, 0.95)',
+              background: theme.navBg,
               backdropFilter: 'blur(24px)',
             }}
           >
@@ -107,7 +102,8 @@ export default function Navbar() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-mavric-text-muted hover:text-mavric-text text-lg font-body transition-colors"
+                  className="text-lg font-body transition-colors"
+                  style={{ color: theme.textSecondary }}
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
@@ -115,13 +111,11 @@ export default function Navbar() {
               ))}
               <a
                 href="#contact"
-                className="mt-2 px-5 py-3 rounded-lg text-center font-medium text-mavric-text"
-                style={{
-                  background: `linear-gradient(135deg, ${theme.accent1}, ${theme.accent2})`,
-                }}
+                className="mt-2 px-5 py-3 rounded-lg text-center font-medium"
+                style={{ background: theme.btnBg, color: theme.btnText }}
                 onClick={() => setMobileOpen(false)}
               >
-                Book a Consultation
+                Agendar Consulta
               </a>
             </div>
           </motion.div>

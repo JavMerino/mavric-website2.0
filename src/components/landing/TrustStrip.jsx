@@ -26,10 +26,10 @@ function AnimatedCounter({ target, suffix = '', duration = 2000 }) {
 }
 
 const metrics = [
-  { icon: Zap, value: '50', suffix: '+', label: 'Projects Delivered' },
-  { icon: BarChart3, value: '40', suffix: '%', label: 'Faster Operations' },
-  { icon: Cpu, value: '200', suffix: '+', label: 'Automated Workflows' },
-  { icon: Cloud, value: '99', suffix: '.9%', label: 'System Uptime' },
+  { icon: Zap, value: '50', suffix: '+', label: 'Proyectos Entregados' },
+  { icon: BarChart3, value: '40', suffix: '%', label: 'Operaciones Más Rápidas' },
+  { icon: Cpu, value: '200', suffix: '+', label: 'Flujos Automatizados' },
+  { icon: Cloud, value: '99', suffix: '.9%', label: 'Disponibilidad del Sistema' },
 ];
 
 export default function TrustStrip() {
@@ -43,10 +43,10 @@ export default function TrustStrip() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.8 }}
-          className="rounded-2xl border p-8 md:p-10"
+          className="rounded-2xl border p-8 md:p-10 transition-all duration-700"
           style={{
-            background: 'rgba(16, 24, 43, 0.5)',
-            borderColor: 'rgba(248, 250, 252, 0.05)',
+            background: theme.cardBg,
+            borderColor: theme.cardBorder,
             backdropFilter: 'blur(20px)',
           }}
         >
@@ -61,10 +61,10 @@ export default function TrustStrip() {
                 className="text-center"
               >
                 <m.icon size={20} className="mx-auto mb-3" style={{ color: theme.accent1 }} />
-                <div className="text-3xl md:text-4xl font-heading font-bold text-mavric-text mb-1">
+                <div className="text-3xl md:text-4xl font-heading font-bold mb-1 transition-colors duration-700" style={{ color: theme.textPrimary }}>
                   <AnimatedCounter target={m.value} suffix={m.suffix} />
                 </div>
-                <div className="text-xs font-mono text-mavric-text-muted tracking-wider uppercase">
+                <div className="text-xs font-mono tracking-wider uppercase transition-colors duration-700" style={{ color: theme.textMuted }}>
                   {m.label}
                 </div>
               </motion.div>
