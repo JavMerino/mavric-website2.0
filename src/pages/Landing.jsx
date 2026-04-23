@@ -9,6 +9,7 @@ import TrustStrip from '@/components/landing/TrustStrip';
 import SolutionsSection from '@/components/landing/SolutionsSection';
 import WhyMavricSection from '@/components/landing/WhyMavricSection';
 import FeaturedWork from '@/components/landing/FeaturedWork';
+import TeamSection from '@/components/landing/TeamSection';
 import FinalCTA from '@/components/landing/FinalCTA';
 import Footer from '@/components/landing/Footer';
 import ThemeControlPanel from '@/components/landing/ThemeControlPanel';
@@ -28,6 +29,7 @@ export default function Landing() {
           <SolutionsSection />
           <WhyMavricSection />
           <FeaturedWork />
+          <TeamSection />
           <FinalCTA />
         </main>
         <Footer />

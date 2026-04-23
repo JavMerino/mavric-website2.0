@@ -34,6 +34,7 @@ export default function Footer() {
                   { label: 'Servicios', href: '#solutions' },
                   { label: 'Soluciones', href: '#why-mavric' },
                   { label: 'Proyectos', href: '#work' },
+                  { label: 'Equipo', href: '#team' },
                   { label: 'Contacto', href: '#contact' },
                 ].map(link => (
                   <a key={link.label} href={link.href} className="text-sm transition-colors duration-500" style={{ color: theme.textSecondary }}>

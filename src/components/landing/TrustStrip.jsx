@@ -45,9 +45,16 @@ export default function TrustStrip() {
           transition={{ duration: 0.8 }}
           className="rounded-2xl border p-8 md:p-10 transition-all duration-700"
           style={{
-            background: theme.cardBg,
-            borderColor: theme.cardBorder,
+            background: theme.isLight
+              ? 'rgba(255, 255, 255, 0.35)'
+              : 'rgba(15, 23, 50, 0.4)',
+            borderColor: theme.isLight
+              ? 'rgba(15, 23, 42, 0.08)'
+              : 'rgba(248, 250, 252, 0.07)',
             backdropFilter: 'blur(20px)',
+            boxShadow: theme.isLight
+              ? '0 4px 24px rgba(0,0,0,0.04)'
+              : '0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)',
           }}
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">

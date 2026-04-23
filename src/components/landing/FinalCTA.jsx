@@ -24,7 +24,7 @@ export default function FinalCTA() {
           className="relative z-10"
         >
           <span className="text-xs font-mono tracking-widest uppercase mb-6 block" style={{ color: theme.accent1 }}>
-            05 // Siguiente Paso
+            06 // Siguiente Paso
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-6 leading-tight transition-colors duration-700" style={{ color: theme.textPrimary }}>
             ¿Listo para optimizar{' '}

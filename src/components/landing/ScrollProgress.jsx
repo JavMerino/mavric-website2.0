@@ -7,7 +7,8 @@ const sections = [
   { id: 'solutions', label: '02 // SERVICIOS' },
   { id: 'why-mavric', label: '03 // NOSOTROS' },
   { id: 'work', label: '04 // CASOS' },
-  { id: 'contact', label: '05 // CONTACTO' },
+  { id: 'team', label: '05 // EQUIPO' },
+  { id: 'contact', label: '06 // CONTACTO' },
 ];
 
 export default function ScrollProgress() {
