@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useTheme } from '@/lib/ThemeContext';
+import BorderRainEffect from './BorderRainEffect';
 
 const navLinks = [
   { label: 'Servicios', href: '#solutions' },
@@ -13,7 +14,7 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { theme } = useTheme();
+  const { theme, rainMode } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -29,13 +30,19 @@ export default function Navbar() {
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
       <div
-        className="transition-all duration-700"
+        className="relative transition-all duration-700"
         style={{
-          background: scrolled ? theme.navBg : `${theme.navBg}80`,
-          backdropFilter: scrolled ? 'blur(24px) saturate(1.4)' : 'blur(8px)',
-          borderBottom: scrolled ? `1px solid ${theme.navBorder}` : '1px solid transparent',
+          background: scrolled
+            ? 'rgba(255, 255, 255, 0.06)'
+            : 'rgba(255, 255, 255, 0.02)',
+          backdropFilter: scrolled ? 'blur(24px) saturate(1.3)' : 'blur(12px)',
+          borderBottom: scrolled
+            ? '1px solid rgba(255, 255, 255, 0.08)'
+            : '1px solid transparent',
         }}
       >
+        {rainMode && <BorderRainEffect edge="bottom" count={6} />}
+
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2 group">
             <div
@@ -93,7 +100,7 @@ export default function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden overflow-hidden"
             style={{
-              background: theme.navBg,
+              background: 'rgba(255, 255, 255, 0.05)',
               backdropFilter: 'blur(24px)',
             }}
           >

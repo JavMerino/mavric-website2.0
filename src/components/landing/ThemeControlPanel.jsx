@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
 import { Sun, Moon, Cloud, CloudRain, Clock, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
+import BorderRainEffect from './BorderRainEffect';
 
 const timeLabels = [
   { hour: 8, label: 'Mañana' },
@@ -59,7 +60,7 @@ function getWeatherVisual(weatherMode, isNight) {
 }
 
 export default function ThemeControlPanel() {
-  const { currentHour, piuraMinute, piuraTemp, autoTime, autoWeather, weatherMode, setHour, enableAutoTime, setWeatherMode, theme } = useTheme();
+  const { currentHour, piuraMinute, piuraTemp, autoTime, autoWeather, weatherMode, setHour, enableAutoTime, setWeatherMode, theme, rainMode } = useTheme();
   const [open, setOpen] = useState(false);
   const panelRef = useRef(null);
 
@@ -157,6 +158,7 @@ export default function ThemeControlPanel() {
             </div>
 
             <ChevronDown size={10} className="relative" style={{ color: theme.textMuted }} />
+            {rainMode && <BorderRainEffect edge="all" count={5} />}
           </motion.button>
         ) : (
           <motion.div
@@ -177,6 +179,8 @@ export default function ThemeControlPanel() {
               boxShadow: `0 8px 32px rgba(0,0,0,${theme.isLight ? '0.08' : '0.4'}), 0 0 24px ${visual.glowColor}`,
             }}
           >
+            {rainMode && <BorderRainEffect edge="all" count={6} />}
+
             {/* Top gradient accent strip */}
             <div
               className="absolute top-0 left-0 right-0 h-16 transition-all duration-1000"

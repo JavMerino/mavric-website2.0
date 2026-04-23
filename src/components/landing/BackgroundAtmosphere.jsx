@@ -7,7 +7,7 @@ function StarField({ count = 40, color }) {
     Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
-      y: Math.random() * 70, // top 70% only for sky feel
+      y: Math.random() * 70,
       size: Math.random() * 1.5 + 0.4,
       delay: Math.random() * 6,
       duration: Math.random() * 4 + 3,
@@ -40,18 +40,51 @@ function StarField({ count = 40, color }) {
 export default function BackgroundAtmosphere() {
   const { theme, cloudyMode, weatherMode } = useTheme();
 
-  // Stars only in clear weather and only for themes that define them
   const showStars = theme.showStars && weatherMode === 'clear';
 
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden transition-colors duration-1000" style={{ background: theme.gradientStart }}>
-      {/* Base gradient */}
+    <div className="fixed inset-0 -z-10 overflow-hidden">
+      {/* Rich multi-stop gradient background */}
       <motion.div
         className="absolute inset-0"
         animate={{
-          background: `linear-gradient(180deg, ${theme.gradientStart} 0%, ${theme.gradientMid} 50%, ${theme.gradientEnd} 100%)`,
+          background: [
+            `radial-gradient(ellipse 120% 80% at 30% 0%, ${theme.gradientStart} 0%, transparent 55%)`,
+          ].join(', '),
         }}
         transition={{ duration: 1.5, ease: 'easeInOut' }}
+        style={{
+          background: `
+            linear-gradient(
+              170deg,
+              ${theme.gradientStart} 0%,
+              ${theme.gradientMid} 30%,
+              ${theme.gradientEnd} 55%,
+              ${theme.gradientMid} 75%,
+              ${theme.gradientStart} 100%
+            )
+          `,
+        }}
+      />
+
+      {/* Secondary radial wash — adds depth and breaks solidity */}
+      <motion.div
+        className="absolute inset-0"
+        animate={{
+          background: `radial-gradient(ellipse 140% 70% at 25% 15%, ${theme.gradientMid}CC 0%, transparent 60%)`,
+          opacity: 1,
+        }}
+        transition={{ duration: 2, ease: 'easeInOut' }}
+      />
+
+      {/* Third radial — bottom-right warmth */}
+      <motion.div
+        className="absolute inset-0"
+        animate={{
+          background: `radial-gradient(ellipse 100% 80% at 80% 85%, ${theme.gradientEnd}BB 0%, transparent 55%)`,
+          opacity: 1,
+        }}
+        transition={{ duration: 2, ease: 'easeInOut' }}
       />
 
       {/* Aura glow */}
@@ -63,7 +96,7 @@ export default function BackgroundAtmosphere() {
 
       {/* Orb 1 */}
       <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full blur-[120px]"
+        className="absolute w-[700px] h-[700px] rounded-full blur-[150px]"
         animate={{
           background: theme.accent1,
           opacity: theme.orbOpacity,
@@ -71,12 +104,12 @@ export default function BackgroundAtmosphere() {
           y: [0, -30, 20, 0],
         }}
         transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ top: '10%', left: '20%' }}
+        style={{ top: '5%', left: '15%' }}
       />
 
       {/* Orb 2 */}
       <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full blur-[100px]"
+        className="absolute w-[550px] h-[550px] rounded-full blur-[120px]"
         animate={{
           background: theme.accent2,
           opacity: theme.orbOpacity * 0.75,
@@ -84,10 +117,23 @@ export default function BackgroundAtmosphere() {
           y: [0, 40, -20, 0],
         }}
         transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ top: '40%', right: '10%' }}
+        style={{ top: '45%', right: '8%' }}
       />
 
-      {/* Stars - only clear + dusk/night */}
+      {/* Orb 3 — mid-page softener */}
+      <motion.div
+        className="absolute w-[400px] h-[400px] rounded-full blur-[130px]"
+        animate={{
+          background: theme.gradientMid,
+          opacity: theme.orbOpacity * 0.5,
+          x: [0, 30, -20, 0],
+          y: [0, -20, 30, 0],
+        }}
+        transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ top: '60%', left: '40%' }}
+      />
+
+      {/* Stars */}
       <AnimatePresence>
         {showStars && (
           <motion.div
@@ -96,10 +142,7 @@ export default function BackgroundAtmosphere() {
             exit={{ opacity: 0 }}
             transition={{ duration: 2 }}
           >
-            <StarField
-              count={theme.starCount || 30}
-              color={theme.particleColor}
-            />
+            <StarField count={theme.starCount || 30} color={theme.particleColor} />
           </motion.div>
         )}
       </AnimatePresence>

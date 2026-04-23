@@ -26,17 +26,16 @@ export default function RainOverlay() {
     };
     window.addEventListener('resize', resize);
 
-    const windAngle = 0.45; // radians (~26°) diagonal
+    const windAngle = 0.42;
 
-    dropsRef.current = Array.from({ length: 120 }, () => ({
+    dropsRef.current = Array.from({ length: 110 }, () => ({
       x: Math.random() * (w + 200) - 100,
       y: Math.random() * h,
-      len: Math.random() * 22 + 10,
-      speed: Math.random() * 6 + 4.5,
-      opacity: Math.random() * 0.28 + 0.08,
-      width: Math.random() * 2.2 + 0.8,
-      // Droplet head radius — makes it look like a raindrop
-      headR: Math.random() * 1.6 + 0.8,
+      len: Math.random() * 26 + 14,
+      speed: Math.random() * 5.5 + 4,
+      opacity: Math.random() * 0.26 + 0.08,
+      width: Math.random() * 2.4 + 1.0,
+      headR: Math.random() * 2.0 + 1.0,
     }));
 
     const dx = Math.sin(windAngle);
@@ -49,11 +48,10 @@ export default function RainOverlay() {
         const tailX = drop.x + dx * drop.len;
         const tailY = drop.y + dy * drop.len;
 
-        // Tapered streak — thicker at head, thinner at tail
         ctx.save();
         ctx.globalAlpha = drop.opacity;
 
-        // Draw tapered body using a triangle path
+        // Tapered teardrop body
         const perpX = dy * drop.width * 0.5;
         const perpY = -dx * drop.width * 0.5;
 
@@ -69,23 +67,22 @@ export default function RainOverlay() {
         ctx.beginPath();
         ctx.arc(drop.x, drop.y, drop.headR, 0, Math.PI * 2);
         ctx.fillStyle = theme.rainColor;
-        ctx.globalAlpha = drop.opacity * 1.2;
+        ctx.globalAlpha = drop.opacity * 1.3;
         ctx.fill();
 
-        // Subtle highlight on head
+        // Highlight glint on head
         ctx.beginPath();
-        ctx.arc(drop.x - drop.headR * 0.25, drop.y - drop.headR * 0.25, drop.headR * 0.45, 0, Math.PI * 2);
+        ctx.arc(drop.x - drop.headR * 0.3, drop.y - drop.headR * 0.3, drop.headR * 0.4, 0, Math.PI * 2);
         ctx.fillStyle = theme.rainHighlight || 'rgba(255,255,255,0.15)';
         ctx.globalAlpha = drop.opacity * 0.5;
         ctx.fill();
 
         ctx.restore();
 
-        // Move
         drop.y += drop.speed * dy;
         drop.x += drop.speed * dx;
         if (drop.y > h || drop.x > w + 100) {
-          drop.y = -(Math.random() * 40);
+          drop.y = -(Math.random() * 50);
           drop.x = Math.random() * (w + 200) - 200;
         }
       });
