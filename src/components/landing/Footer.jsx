@@ -6,7 +6,7 @@ export default function Footer() {
   const { theme, rainMode } = useTheme();
 
 
-  const solidBg = theme.isLight ? '#E1EAF5' : '#070B14';
+  const solidBg = theme.isLight ? theme.gradientEnd : '#070B14';
 
   return (
     <footer

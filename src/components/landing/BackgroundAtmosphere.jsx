@@ -48,31 +48,17 @@ export default function BackgroundAtmosphere() {
       <motion.div
         className="absolute inset-0"
         animate={{
-          background: [
-            `radial-gradient(ellipse 120% 80% at 30% 0%, ${theme.gradientStart} 0%, transparent 55%)`,
-          ].join(', '),
+          background: `linear-gradient(170deg, ${theme.gradientStart} 0%, ${theme.gradientMid} 30%, ${theme.gradientEnd} 55%, ${theme.gradientMid} 75%, ${theme.gradientStart} 100%)`,
         }}
         transition={{ duration: 1.5, ease: 'easeInOut' }}
-        style={{
-          background: `
-            linear-gradient(
-              170deg,
-              ${theme.gradientStart} 0%,
-              ${theme.gradientMid} 30%,
-              ${theme.gradientEnd} 55%,
-              ${theme.gradientMid} 75%,
-              ${theme.gradientStart} 100%
-            )
-          `,
-        }}
       />
 
       {/* Secondary radial wash — adds depth and breaks solidity */}
       <motion.div
         className="absolute inset-0"
         animate={{
-          background: `radial-gradient(ellipse 140% 70% at 25% 15%, ${theme.gradientMid}CC 0%, transparent 60%)`,
-          opacity: 1,
+          background: `radial-gradient(ellipse 140% 70% at 25% 15%, ${theme.gradientMid} 0%, transparent 60%)`,
+          opacity: theme.isLight ? 0.4 : 0.8,
         }}
         transition={{ duration: 2, ease: 'easeInOut' }}
       />
@@ -81,8 +67,8 @@ export default function BackgroundAtmosphere() {
       <motion.div
         className="absolute inset-0"
         animate={{
-          background: `radial-gradient(ellipse 100% 80% at 80% 85%, ${theme.gradientEnd}BB 0%, transparent 55%)`,
-          opacity: 1,
+          background: `radial-gradient(ellipse 100% 80% at 80% 85%, ${theme.gradientEnd} 0%, transparent 55%)`,
+          opacity: theme.isLight ? 0.35 : 0.7,
         }}
         transition={{ duration: 2, ease: 'easeInOut' }}
       />
