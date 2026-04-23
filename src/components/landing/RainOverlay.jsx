@@ -26,41 +26,51 @@ export default function RainOverlay() {
     };
     window.addEventListener('resize', resize);
 
+    // Wind drift: each drop gets a consistent diagonal offset
+    const windAngle = 0.35; // radians (~20°) from vertical
+
     dropsRef.current = Array.from({ length: 160 }, () => ({
-      x: Math.random() * w,
+      x: Math.random() * (w + 200) - 100,
       y: Math.random() * h,
-      len: Math.random() * 22 + 8,
-      speed: Math.random() * 7 + 4,
-      opacity: Math.random() * 0.35 + 0.15,
-      width: Math.random() * 1.2 + 0.4,
+      len: Math.random() * 24 + 10,
+      speed: Math.random() * 7 + 5,
+      opacity: Math.random() * 0.32 + 0.12,
+      width: Math.random() * 1.1 + 0.3,
     }));
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
 
+      const dx = Math.sin(windAngle);
+      const dy = Math.cos(windAngle);
+
       dropsRef.current.forEach(drop => {
+        const endX = drop.x + dx * drop.len;
+        const endY = drop.y + dy * drop.len;
+
         // Main drop line
         ctx.beginPath();
         ctx.strokeStyle = theme.rainColor;
         ctx.lineWidth = drop.width;
         ctx.globalAlpha = drop.opacity;
         ctx.moveTo(drop.x, drop.y);
-        ctx.lineTo(drop.x + 0.5, drop.y + drop.len);
+        ctx.lineTo(endX, endY);
         ctx.stroke();
 
         // Subtle highlight streak
         ctx.beginPath();
         ctx.strokeStyle = theme.rainHighlight || 'rgba(255,255,255,0.08)';
-        ctx.lineWidth = drop.width * 0.5;
-        ctx.globalAlpha = drop.opacity * 0.4;
-        ctx.moveTo(drop.x + 0.8, drop.y + 2);
-        ctx.lineTo(drop.x + 1, drop.y + drop.len * 0.6);
+        ctx.lineWidth = drop.width * 0.4;
+        ctx.globalAlpha = drop.opacity * 0.35;
+        ctx.moveTo(drop.x + 0.6, drop.y + 2);
+        ctx.lineTo(drop.x + dx * drop.len * 0.5 + 0.6, drop.y + dy * drop.len * 0.5 + 2);
         ctx.stroke();
 
-        drop.y += drop.speed;
-        if (drop.y > h) {
-          drop.y = -drop.len;
-          drop.x = Math.random() * w;
+        drop.y += drop.speed * dy;
+        drop.x += drop.speed * dx;
+        if (drop.y > h || drop.x > w + 100) {
+          drop.y = -(Math.random() * 40);
+          drop.x = Math.random() * (w + 200) - 200;
         }
       });
       ctx.globalAlpha = 1;
