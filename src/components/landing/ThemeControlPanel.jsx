@@ -106,7 +106,7 @@ export default function ThemeControlPanel() {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.25 }}
             onClick={() => setOpen(true)}
-            className="relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl border transition-all duration-700 cursor-pointer hover:scale-[1.02] overflow-hidden"
+            className="weather-prism-card weather-prism-card--compact relative isolate flex items-center gap-3 px-3.5 py-2.5 rounded-xl border transition-all duration-700 cursor-pointer hover:scale-[1.02] overflow-hidden"
             style={{
               background: theme.isLight
                 ? 'rgba(255, 255, 255, 0.55)'
@@ -168,7 +168,7 @@ export default function ThemeControlPanel() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="relative rounded-2xl border overflow-hidden transition-all duration-700"
+            className="weather-prism-card weather-prism-card--expanded relative isolate rounded-2xl border overflow-hidden transition-all duration-700"
             style={{
               background: theme.isLight
                 ? 'rgba(255, 255, 255, 0.6)'
