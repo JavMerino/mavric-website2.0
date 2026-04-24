@@ -3,10 +3,20 @@ import { useTheme } from '@/lib/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function RainOverlay() {
-  const { rainMode, theme } = useTheme();
+  const { rainMode, theme, currentThemeName } = useTheme();
+  const isNightOrDusk = currentThemeName === 'night' || currentThemeName === 'dusk';
+  const shouldShowLightning = rainMode && isNightOrDusk;
   const canvasRef = useRef(/** @type {HTMLCanvasElement | null} */ (null));
   const animRef = useRef(/** @type {number | null} */ (null));
+  const lightningTimerRef = useRef(/** @type {ReturnType<typeof setTimeout> | null} */ (null));
+  const rainColorRef = useRef(theme.rainColor);
+  const rainHighlightRef = useRef(theme.rainHighlight);
   const dropsRef = useRef(/** @type {{ x: number; y: number; len: number; speed: number; opacity: number; width: number; }[]} */ ([]));
+
+  useEffect(() => {
+    rainColorRef.current = theme.rainColor;
+    rainHighlightRef.current = theme.rainHighlight;
+  }, [theme.rainColor, theme.rainHighlight]);
 
   useEffect(() => {
     if (!rainMode || !canvasRef.current) return;
@@ -43,17 +53,39 @@ export default function RainOverlay() {
     window.addEventListener('resize', resize, { passive: true });
 
     const windAngle = 0.42;
+    const densityBoost = lowPowerDevice ? 1.32 : 1.38;
+    const dropSizeBoost = 1.1;
+
+    const randomBetween = (min, max) => Math.random() * (max - min) + min;
+
+    const createBoltPath = () => {
+      const points = [];
+      let x = randomBetween(w * 0.12, w * 0.88);
+      let y = -20;
+      const segmentCount = Math.floor(randomBetween(8, 13));
+      const step = h / (segmentCount + 2);
+
+      for (let i = 0; i < segmentCount; i++) {
+        x += randomBetween(-24, 24);
+        y += step * randomBetween(0.8, 1.2);
+        points.push({ x, y });
+        if (y >= h * 0.75) break;
+      }
+
+      return points;
+    };
 
     const viewportArea = w * h;
     const densityFactor = lowPowerDevice ? 28000 : 22000;
-    const dropCount = Math.max(34, Math.min(78, Math.floor(viewportArea / densityFactor)));
+    const baseDropCount = Math.floor(viewportArea / densityFactor);
+    const dropCount = Math.max(44, Math.min(lowPowerDevice ? 92 : 120, Math.floor(baseDropCount * densityBoost)));
     dropsRef.current = Array.from({ length: dropCount }, () => ({
       x: Math.random() * (w + 200) - 100,
       y: Math.random() * h,
-      len: Math.random() * 24 + 16,
+      len: (Math.random() * 24 + 16) * dropSizeBoost,
       speed: Math.random() * 4.4 + 3.4,
-      opacity: Math.min(0.8, (Math.random() * 0.2 + 0.2) * visibilityBoost),
-      width: Math.random() * 2.2 + 1.4,
+      opacity: Math.min(0.88, (Math.random() * 0.22 + 0.2) * visibilityBoost * 1.08),
+      width: (Math.random() * 2.2 + 1.4) * dropSizeBoost,
     }));
 
     const dx = Math.sin(windAngle);
@@ -62,6 +94,48 @@ export default function RainOverlay() {
     const targetFrameMs = 1000 / targetFps;
     let lastFrameTs = 0;
     let adaptiveLoad = 1;
+    let activeBolt = [];
+    let lightningPulseUntil = 0;
+    let lightningFadeUntil = 0;
+    let secondaryStrikeAt = 0;
+    let lightningIntensity = 0;
+
+    const clearLightningTimer = () => {
+      if (lightningTimerRef.current) {
+        clearTimeout(lightningTimerRef.current);
+        lightningTimerRef.current = null;
+      }
+    };
+
+    const triggerLightning = (ts, isSecondary = false) => {
+      activeBolt = createBoltPath();
+      lightningIntensity = randomBetween(0.8, 1.15);
+      lightningPulseUntil = ts + randomBetween(90, 150);
+      lightningFadeUntil = lightningPulseUntil + randomBetween(170, 260);
+
+      if (!isSecondary && Math.random() < 0.32) {
+        secondaryStrikeAt = ts + randomBetween(130, 260);
+      } else {
+        secondaryStrikeAt = 0;
+      }
+
+    };
+
+    const scheduleNextLightning = () => {
+      if (!shouldShowLightning) {
+        clearLightningTimer();
+        return;
+      }
+
+      clearLightningTimer();
+      const delay = randomBetween(1400, 7000);
+      lightningTimerRef.current = setTimeout(() => {
+        triggerLightning(performance.now());
+        scheduleNextLightning();
+      }, delay);
+    };
+
+    scheduleNextLightning();
 
     const adaptLoad = (/** @type {number} */ frameMs) => {
       if (frameMs > targetFrameMs * 1.35) {
@@ -89,8 +163,8 @@ export default function RainOverlay() {
       const drops = dropsRef.current;
       const drawStride = adaptiveLoad < 0.7 ? 2 : 1;
 
-      ctx.fillStyle = theme.rainColor;
-      ctx.strokeStyle = theme.rainHighlight || 'rgba(200,220,255,0.3)';
+      ctx.fillStyle = rainColorRef.current;
+      ctx.strokeStyle = rainHighlightRef.current || 'rgba(200,220,255,0.3)';
       ctx.lineWidth = lowPowerDevice ? 0.95 : 1.15;
       ctx.lineCap = 'round';
 
@@ -129,6 +203,46 @@ export default function RainOverlay() {
         }
       }
 
+      if (shouldShowLightning && secondaryStrikeAt && ts >= secondaryStrikeAt) {
+        triggerLightning(ts, true);
+      }
+
+      if (shouldShowLightning && ts <= lightningFadeUntil) {
+        const pulsePhase = ts <= lightningPulseUntil
+          ? 1
+          : Math.max(0, 1 - (ts - lightningPulseUntil) / Math.max(1, lightningFadeUntil - lightningPulseUntil));
+        const flashAlpha = Math.min(0.5, 0.34 * lightningIntensity * pulsePhase);
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.globalAlpha = flashAlpha;
+        ctx.fillStyle = 'rgba(228, 238, 255, 1)';
+        ctx.fillRect(0, 0, w, h);
+
+        if (activeBolt.length > 0 && pulsePhase > 0.2) {
+          ctx.beginPath();
+          ctx.moveTo(activeBolt[0].x, activeBolt[0].y);
+          for (let i = 1; i < activeBolt.length; i++) {
+            ctx.lineTo(activeBolt[i].x, activeBolt[i].y);
+          }
+          ctx.strokeStyle = 'rgba(160, 205, 255, 0.8)';
+          ctx.globalAlpha = Math.min(0.8, pulsePhase * 0.7 * lightningIntensity);
+          ctx.lineWidth = lowPowerDevice ? 2.2 : 2.8;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+
+          ctx.strokeStyle = 'rgba(248, 252, 255, 0.98)';
+          ctx.globalAlpha = Math.min(1, pulsePhase * 0.95 * lightningIntensity);
+          ctx.lineWidth = lowPowerDevice ? 1.2 : 1.6;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+        }
+
+        ctx.restore();
+      }
+
       animRef.current = requestAnimationFrame(draw);
     };
 
@@ -136,9 +250,10 @@ export default function RainOverlay() {
 
     return () => {
       window.removeEventListener('resize', resize);
+      clearLightningTimer();
       if (animRef.current) cancelAnimationFrame(animRef.current);
     };
-  }, [rainMode, theme.rainColor, theme.rainHighlight]);
+  }, [rainMode, shouldShowLightning]);
 
   return (
     <AnimatePresence>
