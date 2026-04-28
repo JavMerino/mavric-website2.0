@@ -1,12 +1,37 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 
-const ThemeContext = createContext();
+/**
+ * @typedef {'clear' | 'cloudy' | 'rain' | 'snow'} WeatherMode
+ */
+/**
+ * @typedef {{
+ *  theme: typeof THEMES[keyof typeof THEMES],
+ *  currentThemeName: keyof typeof THEMES,
+ *  currentHour: number,
+ *  autoWeather: boolean,
+ *  themePreviewHour: number | null,
+ *  rainMode: boolean,
+ *  snowMode: boolean,
+ *  cloudyMode: boolean,
+ *  weatherMode: WeatherMode,
+ *  piuraMinute: number,
+ *  locationHour: number,
+ *  locationMinute: number,
+ *  locationTemp: number | null,
+ *  deluxeMode: boolean,
+ *  setThemePreviewHour: (hour: number | null) => void,
+ *  enableAutoTime: () => void,
+ *  setWeatherMode: (mode: WeatherMode) => void,
+ *  setDeluxeMode: (value: boolean) => void,
+ *  toggleDeluxeMode: () => void,
+ * }} ThemeContextValue
+ */
+
 
 const PIURA_TZ = 'America/Lima';
 const DEFAULT_COORDS = {
   lat: -5.1978,
   lon: -80.6452,
-  label: 'Castilla, Piura',
 };
 
 // Single palette — night blue family (#050810)
@@ -212,6 +237,29 @@ const CLOUDY_OVERRIDES = {
   night:     { gradientStart: '#04060C', gradientMid: '#060A14', gradientEnd: '#080D1C', accent1: '#6B7E9A', accent2: '#4B6580', glow: 'rgba(37, 99, 235, 0.05)', orbOpacity: 0.06, showStars: false },
 };
 
+const ThemeContext = createContext(/** @type {ThemeContextValue} */ ({
+  theme: THEMES.morning,
+  currentThemeName: 'morning',
+  currentHour: 0,
+  autoWeather: true,
+  themePreviewHour: null,
+  rainMode: false,
+  snowMode: false,
+  cloudyMode: false,
+  weatherMode: 'clear',
+  piuraMinute: 0,
+  locationHour: 0,
+  locationMinute: 0,
+  locationTemp: null,
+  deluxeMode: false,
+  setThemePreviewHour: () => {},
+  enableAutoTime: () => {},
+  setWeatherMode: () => {},
+  setDeluxeMode: () => {},
+  toggleDeluxeMode: () => {},
+}));
+
+/** @param {typeof THEMES[keyof typeof THEMES]} base */
 function applyDeluxeOverrides(base) {
   if (base.isLight) {
     return {
@@ -246,6 +294,7 @@ function applyDeluxeOverrides(base) {
   };
 }
 
+/** @param {number} hour */
 function hourToTheme(hour) {
   if (hour >= 6 && hour < 12) return 'morning';
   if (hour >= 12 && hour < 15) return 'midday';
@@ -262,6 +311,15 @@ function getPiuraTime() {
   return { hour: h, minute: m };
 }
 
+/** @param {string} timeZone */
+function getTimeByZone(timeZone) {
+  const now = new Date();
+  const str = now.toLocaleString('en-US', { timeZone, hour: 'numeric', minute: 'numeric', hour12: false });
+  const [h, m] = str.split(':').map(Number);
+  return { hour: h, minute: m };
+}
+
+/** @param {number | null | undefined} code @returns {WeatherMode} */
 function parseWeatherCode(code) {
   if (code === undefined || code === null) return 'clear';
   if (code <= 1) return 'clear';
@@ -272,61 +330,75 @@ function parseWeatherCode(code) {
   return 'rain';
 }
 
-async function fetchWeatherByCoords(lat, lon) {
+/**
+ * @param {number} lat
+ * @param {number} lon
+ * @param {string} timeZone
+ * @returns {Promise<{ weather: WeatherMode, temp: number | null, timeZone: string }>}
+ */
+async function fetchWeatherByCoords(lat, lon, timeZone) {
   try {
     const res = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=weather_code,temperature_2m&timezone=America/Lima`
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=weather_code,temperature_2m&timezone=${encodeURIComponent(timeZone)}`
     );
     const data = await res.json();
     const code = data?.current?.weather_code;
     const temp = data?.current?.temperature_2m;
+    const zone = data?.timezone || timeZone;
     const weather = parseWeatherCode(code);
-    return { weather, temp: temp !== undefined ? Math.round(temp) : null };
+    return { weather, temp: temp !== undefined ? Math.round(temp) : null, timeZone: zone };
   } catch {
-    return { weather: 'clear', temp: null };
+    return { weather: 'clear', temp: null, timeZone: timeZone || PIURA_TZ };
   }
 }
 
-export function ThemeProvider({ children }) {
-  const [themePreviewHour, setThemePreviewHour] = useState(null);
-  const [weatherMode, setWeatherMode] = useState('clear');
+export function ThemeProvider(/** @type {{ children: import('react').ReactNode }} */ { children }) {
+  const [themePreviewHour, setThemePreviewHour] = useState(/** @type {number | null} */ (null));
+  const [weatherMode, setWeatherMode] = useState(/** @type {WeatherMode} */ ('clear'));
   const [autoWeather, setAutoWeather] = useState(true);
   const [deluxeMode, setDeluxeMode] = useState(false);
   const [piuraMinute, setPiuraMinute] = useState(() => getPiuraTime().minute);
-  const [locationTemp, setLocationTemp] = useState(null);
-  const [locationLabel, setLocationLabel] = useState(DEFAULT_COORDS.label);
+  const [locationHour, setLocationHour] = useState(() => getPiuraTime().hour);
+  const [locationMinute, setLocationMinute] = useState(() => getPiuraTime().minute);
+  const [locationTemp, setLocationTemp] = useState(/** @type {number | null} */ (null));
+  const [locationTimeZone, setLocationTimeZone] = useState(PIURA_TZ);
+  const [useFallbackLocation, setUseFallbackLocation] = useState(true);
   const coordsRef = React.useRef({ lat: DEFAULT_COORDS.lat, lon: DEFAULT_COORDS.lon });
 
   const resolveLocationAndWeather = useCallback(async () => {
     let coords = { ...DEFAULT_COORDS };
-    let label = DEFAULT_COORDS.label;
+    let timeZone = PIURA_TZ;
+    let usingFallback = true;
 
     if (typeof window !== 'undefined' && navigator.geolocation) {
       try {
         const position = await new Promise((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: false,
-            timeout: 8000,
-            maximumAge: 600000,
+            enableHighAccuracy: true,
+            timeout: 12000,
+            maximumAge: 0,
           });
         });
         coords = {
           lat: position.coords.latitude,
           lon: position.coords.longitude,
-          label: 'Ubicacion detectada',
         };
-        label = coords.label;
+        timeZone = 'auto';
+        usingFallback = false;
       } catch {
-        coords = { ...DEFAULT_COORDS };
-        label = DEFAULT_COORDS.label;
+        // Keep fallback coords/timezone.
       }
     }
 
     coordsRef.current = { lat: coords.lat, lon: coords.lon };
-    setLocationLabel(label);
-    const { weather, temp } = await fetchWeatherByCoords(coords.lat, coords.lon);
+    const { weather, temp, timeZone: resolvedZone } = await fetchWeatherByCoords(coords.lat, coords.lon, timeZone);
     if (autoWeather) setWeatherMode(weather);
     setLocationTemp(temp);
+    setLocationTimeZone(resolvedZone || PIURA_TZ);
+    setUseFallbackLocation(usingFallback);
+    const resolvedTime = getTimeByZone(resolvedZone || PIURA_TZ);
+    setLocationHour(resolvedTime.hour);
+    setLocationMinute(resolvedTime.minute);
   }, [autoWeather]);
 
   useEffect(() => {
@@ -383,22 +455,27 @@ export function ThemeProvider({ children }) {
     const interval = setInterval(() => {
       const t = getPiuraTime();
       setPiuraMinute(t.minute);
+      const localTime = getTimeByZone(locationTimeZone || PIURA_TZ);
+      setLocationHour(localTime.hour);
+      setLocationMinute(localTime.minute);
     }, 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [locationTimeZone]);
 
   // Re-fetch weather every 10 min
   useEffect(() => {
     if (!autoWeather) return;
     const interval = setInterval(() => {
       const { lat, lon } = coordsRef.current;
-      fetchWeatherByCoords(lat, lon).then(({ weather, temp }) => {
+      const timeZone = useFallbackLocation ? PIURA_TZ : (locationTimeZone || 'auto');
+      fetchWeatherByCoords(lat, lon, timeZone).then(({ weather, temp, timeZone: resolvedZone }) => {
         setWeatherMode(weather);
         setLocationTemp(temp);
+        if (resolvedZone) setLocationTimeZone(resolvedZone);
       });
     }, 600000);
     return () => clearInterval(interval);
-  }, [autoWeather]);
+  }, [autoWeather, locationTimeZone, useFallbackLocation]);
 
   const enableAutoTime = useCallback(() => {
     setAutoWeather(true);
@@ -408,7 +485,7 @@ export function ThemeProvider({ children }) {
     resolveLocationAndWeather();
   }, [resolveLocationAndWeather]);
 
-  const handleSetWeatherMode = useCallback((mode) => {
+  const handleSetWeatherMode = useCallback((/** @type {WeatherMode} */ mode) => {
     setAutoWeather(false);
     setWeatherMode(mode);
   }, []);
@@ -427,7 +504,7 @@ export function ThemeProvider({ children }) {
       theme, currentThemeName, currentHour, autoWeather,
       themePreviewHour,
       rainMode: isRaining, snowMode: isSnowing, cloudyMode: isCloudy, weatherMode,
-      piuraMinute, locationTemp, locationLabel,
+      piuraMinute, locationHour, locationMinute, locationTemp,
       deluxeMode,
       setThemePreviewHour, enableAutoTime, setWeatherMode: handleSetWeatherMode,
       setDeluxeMode, toggleDeluxeMode,

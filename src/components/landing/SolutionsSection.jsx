@@ -30,9 +30,11 @@ const solutions = [
   },
 ];
 
-function SolutionCard({ solution, index }) {
+/** @typedef {{ icon: typeof Code2, title: string, desc: string, tag: string }} SolutionItem */
+
+function SolutionCard(/** @type {{ solution: SolutionItem, index: number }} */ { solution, index }) {
   const { theme } = useTheme();
-  const ref = useRef(null);
+  const ref = useRef(/** @type {HTMLDivElement | null} */ (null));
   const rafRef = useRef(/** @type {number | null} */ (null));
   const pointerRef = useRef({ x: 0, y: 0 });
   const mouseX = useMotionValue(0);
@@ -46,7 +48,7 @@ function SolutionCard({ solution, index }) {
   const glowX = useTransform(mouseX, v => `${v}px`);
   const glowY = useTransform(mouseY, v => `${v}px`);
 
-  function handleMouse(e) {
+  function handleMouse(/** @type {React.MouseEvent<HTMLDivElement>} */ e) {
     if (!enableMouseGlow) return;
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;

@@ -11,7 +11,7 @@ const CONTACT_LINKS = [
     href: 'mailto:informes@mavrictec.com',
     Icon: Gmail,
     iconColor: null,
-    borderColor: 'rgba(234, 67, 53, 0.25)',
+    borderColor: 'transparent',
     shadow: '0 8px 24px rgba(234, 67, 53, 0.18)',
   },
   {
@@ -19,7 +19,7 @@ const CONTACT_LINKS = [
     href: 'https://wa.me/?text=Hola,%20me%20gustaría%20conocer%20más%20sobre%20vuestros%20servicios',
     Icon: WhatsApp,
     iconColor: '#25D366',
-    borderColor: 'rgba(37, 211, 102, 0.35)',
+    borderColor: 'transparent',
     shadow: '0 8px 24px rgba(37, 211, 102, 0.2)',
   },
   {
@@ -27,7 +27,7 @@ const CONTACT_LINKS = [
     href: 'https://www.instagram.com/mavrictechnologies/',
     Icon: Instagram,
     iconColor: '#E4405F',
-    borderColor: 'rgba(228, 64, 95, 0.35)',
+    borderColor: 'transparent',
     shadow: '0 8px 24px rgba(228, 64, 95, 0.2)',
   },
 ];
