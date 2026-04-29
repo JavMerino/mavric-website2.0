@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
-import { Sun, Moon, Cloud, CloudRain, Snowflake, Clock, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
+import { Sun, Moon, Cloud, CloudRain, Snowflake, Clock, ChevronDown, ChevronUp } from 'lucide-react';
 import BorderRainEffect from './BorderRainEffect';
+
+/** @typedef {'clear' | 'cloudy' | 'rain' | 'snow'} WeatherMode */
 
 const timeLabels = [
   { hour: 8, label: 'Mañana' },
@@ -13,6 +15,7 @@ const timeLabels = [
   { hour: 22, label: 'Noche' },
 ];
 
+/** @param {'clear' | 'cloudy' | 'rain' | 'snow'} weatherMode @param {boolean} isNight */
 function getWeatherVisual(weatherMode, isNight) {
   if (weatherMode === 'rain') {
     return {
@@ -72,17 +75,21 @@ function getWeatherVisual(weatherMode, isNight) {
 }
 
 export default function ThemeControlPanel() {
-  const { currentHour, piuraMinute, locationTemp, locationLabel, autoWeather, weatherMode, setThemePreviewHour, themePreviewHour, enableAutoTime, setWeatherMode, theme, rainMode } = useTheme();
+  const { currentHour, currentThemeName, locationHour, locationMinute, locationTemp, autoWeather, weatherMode, setThemePreviewHour, themePreviewHour, enableAutoTime, setWeatherMode, theme, rainMode, deluxeMode, toggleDeluxeMode } = useTheme();
   const [open, setOpen] = useState(false);
-  const panelRef = useRef(null);
+  const panelRef = useRef(/** @type {HTMLDivElement | null} */ (null));
 
   const isNight = currentHour >= 19 || currentHour < 6;
   const visual = getWeatherVisual(weatherMode, isNight);
+  const deluxeLocked = currentThemeName === 'morning' || currentThemeName === 'midday' || currentThemeName === 'afternoon';
 
   useEffect(() => {
     if (!open) return;
-    const handler = (e) => {
-      if (panelRef.current && !panelRef.current.contains(e.target)) setOpen(false);
+    const handler = (/** @type {MouseEvent | TouchEvent} */ e) => {
+      const target = e.target;
+      if (panelRef.current && target instanceof Node && !panelRef.current.contains(target)) {
+        setOpen(false);
+      }
     };
     document.addEventListener('mousedown', handler);
     document.addEventListener('touchstart', handler);
@@ -92,13 +99,13 @@ export default function ThemeControlPanel() {
     };
   }, [open]);
 
-  const timeStr = `${String(currentHour).padStart(2, '0')}:${String(piuraMinute).padStart(2, '0')}`;
+  const timeStr = `${String(locationHour).padStart(2, '0')}:${String(locationMinute).padStart(2, '0')}`;
 
   const weatherOptions = [
-    { key: 'clear', label: 'Despejado', icon: isNight ? Moon : Sun },
-    { key: 'cloudy', label: 'Nublado', icon: Cloud },
-    { key: 'rain', label: 'Lluvia', icon: CloudRain },
-    { key: 'snow', label: 'Nevando', icon: Snowflake },
+    /** @type {{ key: WeatherMode, label: string, icon: typeof Sun }} */ ({ key: 'clear', label: 'Despejado', icon: isNight ? Moon : Sun }),
+    /** @type {{ key: WeatherMode, label: string, icon: typeof Sun }} */ ({ key: 'cloudy', label: 'Nublado', icon: Cloud }),
+    /** @type {{ key: WeatherMode, label: string, icon: typeof Sun }} */ ({ key: 'rain', label: 'Lluvia', icon: CloudRain }),
+    /** @type {{ key: WeatherMode, label: string, icon: typeof Sun }} */ ({ key: 'snow', label: 'Nevando', icon: Snowflake }),
   ];
   const activeThemeHour = themePreviewHour ?? currentHour;
 
@@ -153,9 +160,8 @@ export default function ThemeControlPanel() {
 
               <div className="flex flex-col items-start gap-0.5">
                 <div className="flex items-center gap-1.5">
-                  <MapPin size={8} style={{ color: theme.textMuted }} />
                   <span className="text-[9px] font-mono tracking-wider" style={{ color: theme.textMuted }}>
-                    {locationLabel}
+                    {visual.label}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -216,7 +222,7 @@ export default function ThemeControlPanel() {
                 </div>
                 <div className="flex flex-col items-start">
                   <span className="text-[9px] font-mono tracking-wider" style={{ color: theme.textMuted }}>
-                    {locationLabel} · {visual.label}
+                    {visual.label}
                   </span>
                   <span className="text-sm font-heading font-semibold tabular-nums" style={{ color: theme.textPrimary }}>
                     {timeStr}
@@ -285,6 +291,25 @@ export default function ThemeControlPanel() {
                     );
                   })}
                 </div>
+
+                <button
+                  onClick={toggleDeluxeMode}
+                  disabled={deluxeLocked}
+                  className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border text-[10px] font-mono tracking-wider transition-all duration-300"
+                  style={{
+                    borderColor: deluxeMode
+                      ? 'rgba(212, 175, 55, 0.5)'
+                      : theme.isLight
+                        ? 'rgba(15,23,42,0.08)'
+                        : 'rgba(248,250,252,0.06)',
+                    color: deluxeMode ? '#D4AF37' : theme.textMuted,
+                    background: deluxeMode ? 'rgba(212, 175, 55, 0.12)' : 'transparent',
+                    opacity: deluxeLocked ? 0.5 : 1,
+                    cursor: deluxeLocked ? 'not-allowed' : 'pointer',
+                  }}
+                >
+                  Deluxe {deluxeMode ? 'ON' : 'OFF'}
+                </button>
               </div>
             </div>
           </motion.div>

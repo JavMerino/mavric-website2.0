@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useTheme } from '@/lib/ThemeContext';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
-function StarField({ count = 40, color }) {
+function StarField(/** @type {{ count?: number, color: string }} */ { count = 40, color }) {
   const stars = useMemo(() =>
     Array.from({ length: count }, (_, i) => ({
       id: i,
@@ -48,6 +48,7 @@ export default function BackgroundAtmosphere() {
   const enableRichMotion = !prefersReducedMotion && !lowPowerDevice;
 
   const showStars = theme.showStars && weatherMode === 'clear' && enableRichMotion;
+  const starCount = 'starCount' in theme && typeof theme.starCount === 'number' ? theme.starCount : 30;
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
@@ -135,7 +136,7 @@ export default function BackgroundAtmosphere() {
             exit={{ opacity: 0 }}
             transition={{ duration: 2 }}
           >
-            <StarField count={theme.starCount || 30} color={theme.particleColor} />
+            <StarField count={starCount} color={theme.particleColor} />
           </motion.div>
         )}
       </AnimatePresence>

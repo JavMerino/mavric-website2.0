@@ -9,14 +9,14 @@ const team = [
   {
     name: 'Mauricio Osores',
     role: 'CEO & Co-Founder',
-    desc: 'Arquitecto de software con enfoque en plataformas cloud escalables, seguridad e inteligencia artificial aplicada.',
+    desc: 'Profesional con más de 10 años de experiencia en el ámbito empresarial y creador de MAVRIC, una propuesta innovadora orientada a impulsar la sostenibilidad, la productividad, la rentabilidad y el crecimiento estratégico de organizaciones modernas, competitivas y con visión de futuro.',
     color: '#0891B2',
     image: mauricioImage,
   },
   {
     name: 'David Ordinola',
     role: 'CTO & Co-Founder',
-    desc: 'Lidera la visión estratégica y el crecimiento de Mavric, con más de 12 años de experiencia en soluciones tecnológicas empresariales.',
+    desc: 'Lidera la visión estratégica y el crecimiento de Mavric, con más de 15 años de experiencia en soluciones tecnológicas empresariales.',
     color: '#0891B2',
     image: davidImage,
   },
