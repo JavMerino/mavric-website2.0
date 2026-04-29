@@ -6,7 +6,7 @@ import iconDorado from '@/assets/icondorado.svg';
 import letraDark from '@/assets/dark.svg';
 import letraSL from '@/assets/light.svg';
 import SocialLinksPanel from './SocialLinksPanel';
-import SocialContact from './SocialContact';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
   const { theme, rainMode, currentThemeName } = useTheme();
@@ -60,7 +60,26 @@ export default function Footer() {
           <div>
             <h4 className="text-[11px] sm:text-xs font-mono tracking-widest mb-2 sm:mb-4 uppercase transition-colors duration-700" style={{ color: theme.textMuted }}>Contacto</h4>
             <div className="flex flex-col gap-2 sm:gap-3">
-              <SocialContact variant="footer" className="w-full" />
+              <a
+                href="mailto:informes@mavrictec.com"
+                className="inline-flex items-center gap-2 text-xs sm:text-sm transition-colors duration-500 hover:underline"
+                style={{ color: theme.textSecondary }}
+              >
+                <Mail className="h-4 w-4" />
+                informes@mavrictec.com
+              </a>
+              <a
+                href="tel:+51987654321"
+                className="inline-flex items-center gap-2 text-xs sm:text-sm transition-colors duration-500 hover:underline"
+                style={{ color: theme.textSecondary }}
+              >
+                <Phone className="h-4 w-4" />
+                +51 987654321
+              </a>
+              <span className="inline-flex items-center gap-2 text-xs sm:text-sm transition-colors duration-700" style={{ color: theme.textSecondary }}>
+                <MapPin className="h-4 w-4" />
+                PIURA-PERU
+              </span>
             </div>
           </div>
         </div>

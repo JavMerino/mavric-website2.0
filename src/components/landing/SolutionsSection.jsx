@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useTheme } from '@/lib/ThemeContext';
-import { Code2, Workflow, Cloud, Brain } from 'lucide-react';
+import { Code2, Workflow, Cloud, Brain, Network } from 'lucide-react';
 
 const solutions = [
   {
@@ -17,16 +17,16 @@ const solutions = [
     tag: 'AUTOMATIZACIÓN',
   },
   {
-    icon: Cloud,
-    title: 'Plataformas Cloud Escalables',
-    desc: 'Diseñamos infraestructura en la nube preparada para crecer contigo. Alta disponibilidad, seguridad integrada y optimización continua del rendimiento.',
-    tag: 'CLOUD',
-  },
-  {
     icon: Brain,
     title: 'IA Aplicada y Analítica Avanzada',
     desc: 'Convertimos tus datos en decisiones con modelos de inteligencia artificial, dashboards analíticos y herramientas predictivas que generan ventaja competitiva real.',
     tag: 'IA / ML',
+  },
+  {
+    icon: Network,
+    title: 'Diseno de Infraestructura de Redes e IoT',
+    desc: 'Planificamos redes seguras y de alto rendimiento para hogares inteligentes. Integramos domotica, sensores y plataformas IoT con cobertura estable, segmentacion y control centralizado.',
+    tag: 'REDES / IOT',
   },
 ];
 

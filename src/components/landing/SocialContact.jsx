@@ -4,6 +4,7 @@ import { useTheme } from '@/lib/ThemeContext';
 import { Gmail } from '@/components/ui/icons/gmail';
 import { WhatsApp } from '@/components/ui/icons/whatsapp';
 import { Instagram } from '@/components/ui/icons/instagram';
+import { LinkedIn } from '@/components/ui/icons/linkedin';
 
 const CONTACT_LINKS = [
   {
@@ -12,13 +13,13 @@ const CONTACT_LINKS = [
     Icon: Gmail,
     iconColor: null,
     borderColor: 'transparent',
-    shadow: '0 8px 24px rgba(234, 67, 53, 0.18)',
+    shadow: '0 8px 24px rgba(15, 23, 42, 0.18)',
   },
   {
     label: 'WHATSAPP',
     href: 'https://wa.me/?text=Hola,%20me%20gustaría%20conocer%20más%20sobre%20vuestros%20servicios',
     Icon: WhatsApp,
-    iconColor: '#25D366',
+    iconColor: null,
     borderColor: 'transparent',
     shadow: '0 8px 24px rgba(37, 211, 102, 0.2)',
   },
@@ -26,9 +27,17 @@ const CONTACT_LINKS = [
     label: 'INSTAGRAM',
     href: 'https://www.instagram.com/mavrictechnologies/',
     Icon: Instagram,
-    iconColor: '#E4405F',
+    iconColor: null,
     borderColor: 'transparent',
     shadow: '0 8px 24px rgba(228, 64, 95, 0.2)',
+  },
+  {
+    label: 'LINKEDIN',
+    href: 'https://www.linkedin.com/company/mavric-technologies/',
+    Icon: LinkedIn,
+    iconColor: null,
+    borderColor: 'transparent',
+    shadow: '0 8px 24px rgba(10, 102, 194, 0.2)',
   },
 ];
 
@@ -39,9 +48,10 @@ export default function SocialContact(
 ) {
   const { theme } = useTheme();
   const isFooter = variant === 'footer';
-  const iconSizeClass = variant === 'footer' ? 'h-4 w-4' : 'h-5 w-5';
+  const iconSizeClass = variant === 'footer' ? 'h-5 w-5' : 'h-6 w-6';
   const textSizeClass = variant === 'footer' ? 'text-[11px]' : 'text-xs';
   const buttonPadding = variant === 'footer' ? 'px-3 py-2' : 'px-3.5 py-2.5';
+  const iconBoxClass = variant === 'footer' ? 'h-9 w-9' : 'h-10 w-10';
 
   return (
     <motion.div
@@ -58,7 +68,7 @@ export default function SocialContact(
           target={item.label !== 'GMAIL' ? '_blank' : undefined}
           rel={item.label !== 'GMAIL' ? 'noreferrer' : undefined}
           aria-label={item.label}
-          className={`group inline-flex items-center gap-2 rounded-xl ${isFooter ? 'border-0' : 'border'} ${buttonPadding} transition-all duration-500`}
+          className={`group inline-flex justify-center items-center gap-2 rounded-xl ${isFooter ? 'border-0' : 'border'} ${buttonPadding} transition-all duration-500`}
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -69,7 +79,6 @@ export default function SocialContact(
             color: theme.textPrimary,
             borderColor: isFooter ? 'transparent' : item.borderColor,
             background:'transparent',
-              
             boxShadow: 'none',
           }}
           onMouseEnter={e => {
@@ -86,15 +95,16 @@ export default function SocialContact(
           }}
         >
           <span
-            className="inline-flex items-center justify-center rounded-lg h-7 w-7 bg-white/90"
+            className={`inline-flex items-center justify-center rounded-xl ${iconBoxClass} bg-white/10 backdrop-blur-md border transition-transform duration-500 group-hover:-translate-x-1`}
             style={{
-              color: item.iconColor || undefined,
-              boxShadow: theme.isLight ? '0 2px 8px rgba(15, 23, 42, 0.08)' : '0 2px 8px rgba(2, 6, 23, 0.45)',
+              color: 'currentColor',
+              borderColor: theme.isLight ? 'rgba(15, 23, 42, 0.12)' : 'rgba(248, 250, 252, 0.12)',
+              boxShadow: theme.isLight ? '0 6px 16px rgba(15, 23, 42, 0.08)' : '0 6px 16px rgba(2, 6, 23, 0.5)',
             }}
           >
             <item.Icon className={`${iconSizeClass}`} />
           </span>
-          <span className={`${textSizeClass} font-mono tracking-wider font-semibold`}>
+          <span className={`${textSizeClass} font-mono tracking-wider font-semibold max-w-0 opacity-0 translate-x-1 overflow-hidden transition-all duration-500 group-hover:max-w-[140px] group-hover:opacity-100 group-hover:translate-x-0`}>
             {item.label}
           </span>
         </motion.a>
