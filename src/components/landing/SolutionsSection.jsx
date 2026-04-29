@@ -24,7 +24,7 @@ const solutions = [
   },
   {
     icon: Network,
-    title: 'Diseno de Infraestructura de Redes e IoT',
+    title: 'Diseño de Infraestructura de Redes e IoT',
     desc: 'Planificamos redes seguras y de alto rendimiento para hogares inteligentes. Integramos domotica, sensores y plataformas IoT con cobertura estable, segmentacion y control centralizado.',
     tag: 'REDES / IOT',
   },
