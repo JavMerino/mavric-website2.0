@@ -25,7 +25,7 @@ const CONTACT_LINKS = [
   },
   {
     label: 'INSTAGRAM',
-    href: 'https://www.instagram.com/',
+    href: 'https://www.instagram.com/mavrictec/',
     Icon: Instagram,
     iconColor: null,
     borderColor: 'transparent',
@@ -33,7 +33,7 @@ const CONTACT_LINKS = [
   },
   {
     label: 'LINKEDIN',
-    href: 'https://www.linkedin.com/',
+    href: 'https://www.linkedin.com/company/mavrictec',
     Icon: LinkedIn,
     iconColor: null,
     borderColor: 'transparent',

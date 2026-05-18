@@ -10,17 +10,17 @@ import { Facebook } from '@/components/ui/icons/facebook'
 const SOCIAL_LINKS = [
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/company/',
+    href: 'https://www.linkedin.com/company/mavrictec',
     Icon: LinkedIn,
   },
   {
     label: 'Facebook',
-    href: 'https://www.facebook.com/',
+    href: 'https://web.facebook.com/profile.php?id=61590108294491',
     Icon: Facebook,
   },
   {
     label: 'Instagram',
-    href: 'https://www.instagram.com/',
+    href: 'https://www.instagram.com/mavrictec/',
     Icon: Instagram,
   },
   {
