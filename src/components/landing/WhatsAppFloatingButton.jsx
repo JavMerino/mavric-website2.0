@@ -4,7 +4,7 @@ import { useTheme } from "@/lib/ThemeContext";
 import { WhatsApp } from "@/components/ui/icons/whatsapp";
 
 const WHATSAPP_URL =
-  "https://wa.me/982423722?text=Hola,%20me%20gustaria%20conocer%20mas%20sobre%20sus%20servicios";
+  "https://wa.me/51982423722?text=Hola,%20me%20gustaria%20conocer%20mas%20sobre%20sus%20servicios";
 
 export default function WhatsAppFloatingButton() {
   const { theme } = useTheme();
